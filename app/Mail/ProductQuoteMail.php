@@ -13,24 +13,22 @@ class ProductQuoteMail extends Mailable
     public $product;
     public $form;
 
-    public function __construct($product, $form)
-    {
-        $this->product = $product;
-        $this->form = $form;
-    }
+public function __construct($product, $form, $subject = null)
+{
+    $this->product = $product;
+    $this->form = $form;
+    $this->subjectLine = $subject;
+}
 
     public function build()
     {
-        $email = $this->subject('New Quotation Request - ' . $this->product->name)
-                      ->view('emails.product_quote');
+        $email = $this->subject($this->subjectLine ?? 'New Request')
+            ->view('emails.product_quote');
 
-        // Attach uploaded files if present
-        if (isset($this->form['attachment1'])) {
-            $email->attach(storage_path('app/public/' . $this->form['attachment1']));
-        }
-
-        if (isset($this->form['attachment2'])) {
-            $email->attach(storage_path('app/public/' . $this->form['attachment2']));
+        if (!empty($this->form['attachments'])) {
+            foreach ($this->form['attachments'] as $filePath) {
+                $email->attach(storage_path('app/public/' . $filePath));
+            }
         }
 
         return $email;

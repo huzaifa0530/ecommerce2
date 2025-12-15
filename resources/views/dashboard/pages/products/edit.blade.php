@@ -90,12 +90,14 @@
                                         <label>Colors</label>
 
                                         <div id="colors-wrapper">
-                                            @foreach($product->colors as $index => $c)
+                                            @foreach($product->colors as $c)
                                                 <div class="color-row d-flex gap-2 mb-2">
-                                                    <input type="hidden" name="old_color_id[]" value="{{ $c->id }}">
+
+                                                    <input type="text" name="old_color_names[{{ $c->id }}]" class="form-control"
+                                                        value="{{ $c->color_name }}" placeholder="Color Name">
 
                                                     <input type="color" name="old_colors[{{ $c->id }}]"
-                                                        class="form-control color-picker" value="{{ $c->color_name }}">
+                                                        class="form-control color-picker" value="{{ $c->color_code }}">
 
                                                     @if($c->color_image)
                                                         <img src="{{ asset('storage/' . $c->color_image) }}" width="40">
@@ -109,6 +111,7 @@
 
                                                 </div>
                                             @endforeach
+
                                         </div>
 
                                         <button type="button" id="add-color" class="btn btn-sm btn-secondary mt-2">
@@ -291,12 +294,25 @@
             let wrapper = document.getElementById("colors-wrapper");
             let div = document.createElement("div");
             div.classList.add("color-row", "d-flex", "gap-2", "mb-2");
+
             div.innerHTML = `
-                                            <input type="color" name="colors[]" placeholder="Color Name" class="form-control color-picker">
-                                            <input type="file" name="color_images[]" class="form-control">
-                                        `;
+                <input type="text"
+                       name="color_names[]"
+                       class="form-control"
+                       placeholder="Color Name">
+
+                <input type="color"
+                       name="colors[]"
+                       class="form-control color-picker">
+
+                <input type="file"
+                       name="color_images[]"
+                       class="form-control">
+            `;
+
             wrapper.appendChild(div);
         });
+
 
         // ------------------- EXISTING ROWS -------------------
         function addOldTopRow(tabId) {
@@ -307,16 +323,16 @@
             row.classList.add("border", "p-2", "rounded", "mb-2");
 
             row.innerHTML = `
-                                            <div class="d-flex justify-content-between"><strong>Row</strong></div>
-                                            <div class="row mt-2">
-                                                <div class="col-md-3">
-                                                    <input type="text" name="new_top_tab_rows[${tabId}][${rowIndex}][label]" 
-                                                           class="form-control" placeholder="Label">
-                                                </div>
-                                                <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"></div>
-                                            </div>
-                                            <button type="button" class="btn btn-sm btn-secondary mt-2 add-new-column" data-tab="${tabId}" data-row="${rowIndex}">Add Column</button>
-                                        `;
+                                                    <div class="d-flex justify-content-between"><strong>Row</strong></div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="new_top_tab_rows[${tabId}][${rowIndex}][label]" 
+                                                                   class="form-control" placeholder="Label">
+                                                        </div>
+                                                        <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"></div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-secondary mt-2 add-new-column" data-tab="${tabId}" data-row="${rowIndex}">Add Column</button>
+                                                `;
             container.appendChild(row);
         }
 
@@ -328,16 +344,16 @@
             row.classList.add("border", "p-2", "rounded", "mb-2");
 
             row.innerHTML = `
-                                            <div class="d-flex justify-content-between"><strong>Row</strong></div>
-                                            <div class="row mt-2">
-                                                <div class="col-md-3">
-                                                    <input type="text" name="new_bottom_tab_rows[${tabId}][${rowIndex}][label]" 
-                                                           class="form-control" placeholder="Label">
-                                                </div>
-                                                <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"></div>
-                                            </div>
-                                            <button type="button" class="btn btn-sm btn-secondary mt-2 add-new-column" data-tab="${tabId}" data-row="${rowIndex}">Add Column</button>
-                                        `;
+                                                    <div class="d-flex justify-content-between"><strong>Row</strong></div>
+                                                    <div class="row mt-2">
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="new_bottom_tab_rows[${tabId}][${rowIndex}][label]" 
+                                                                   class="form-control" placeholder="Label">
+                                                        </div>
+                                                        <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"></div>
+                                                    </div>
+                                                    <button type="button" class="btn btn-sm btn-secondary mt-2 add-new-column" data-tab="${tabId}" data-row="${rowIndex}">Add Column</button>
+                                                `;
             container.appendChild(row);
         }
 
@@ -384,13 +400,13 @@
                 div.classList.add('row', 'mb-2');
                 let isTop = e.target.classList.contains('add-new-top-row');
                 div.innerHTML = `
-                                                <div class="col-md-3">
-                                                    <input type="text" name="${isTop ? `top_tab_rows[${tabIndex}][${rowIndex}][label]` : `bottom_tab_rows[${tabIndex}][${rowIndex}][label]`}" 
-                                                           placeholder="Label" class="form-control">
-                                                </div>
-                                                <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"></div>
-                                                <button type="button" class="btn btn-sm btn-secondary add-new-column" data-tab="${tabIndex}" data-row="${rowIndex}">Add Column</button>
-                                            `;
+                                                        <div class="col-md-3">
+                                                            <input type="text" name="${isTop ? `top_tab_rows[${tabIndex}][${rowIndex}][label]` : `bottom_tab_rows[${tabIndex}][${rowIndex}][label]`}" 
+                                                                   placeholder="Label" class="form-control">
+                                                        </div>
+                                                        <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"></div>
+                                                        <button type="button" class="btn btn-sm btn-secondary add-new-column" data-tab="${tabIndex}" data-row="${rowIndex}">Add Column</button>
+                                                    `;
                 container.appendChild(div);
             }
         });
@@ -400,24 +416,24 @@
             let index = topTabIndex++;
 
             let html = `
-                                            <div class="card p-3 shadow-sm mb-3 new-top-tab" id="new-top-tab-${index}">
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <strong>New Top Tab</strong>
-                                                </div>
+                                                    <div class="card p-3 shadow-sm mb-3 new-top-tab" id="new-top-tab-${index}">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <strong>New Top Tab</strong>
+                                                        </div>
 
-                                                <input type="text" 
-                                                       name="top_tabs[${index}][title]" 
-                                                       class="form-control mb-3" 
-                                                       placeholder="Enter Tab Title">
+                                                        <input type="text" 
+                                                               name="top_tabs[${index}][title]" 
+                                                               class="form-control mb-3" 
+                                                               placeholder="Enter Tab Title">
 
-                                                <div class="tab-rows-inner" id="top-tab-${index}-rows"></div>
+                                                        <div class="tab-rows-inner" id="top-tab-${index}-rows"></div>
 
-                                                <button type="button" class="btn btn-sm btn-primary mt-2"
-                                                        onclick="addNewTopRow(${index})">
-                                                    + Add Row
-                                                </button>
-                                            </div>
-                                        `;
+                                                        <button type="button" class="btn btn-sm btn-primary mt-2"
+                                                                onclick="addNewTopRow(${index})">
+                                                            + Add Row
+                                                        </button>
+                                                    </div>
+                                                `;
 
             document.getElementById("top-tabs-wrapper").insertAdjacentHTML("beforeend", html);
         }
@@ -427,27 +443,27 @@
             let rowIndex = container.children.length;
 
             let html = `
-                                            <div class="border p-2 rounded mb-2">
-                                                <strong>Row</strong>
+                                                    <div class="border p-2 rounded mb-2">
+                                                        <strong>Row</strong>
 
-                                                <div class="row mt-2">
-                                                    <div class="col-md-3">
-                                                        <input type="text" 
-                                                               name="top_tabs[${tabIndex}][rows][${rowIndex}][label]" 
-                                                               class="form-control" 
-                                                               placeholder="Label">
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-3">
+                                                                <input type="text" 
+                                                                       name="top_tabs[${tabIndex}][rows][${rowIndex}][label]" 
+                                                                       class="form-control" 
+                                                                       placeholder="Label">
+                                                            </div>
+
+                                                            <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper" 
+                                                                 id="top-tab-${tabIndex}-row-${rowIndex}-columns"></div>
+                                                        </div>
+
+                                                        <button type="button" class="btn btn-sm btn-secondary mt-2"
+                                                                onclick="addNewTopColumn(${tabIndex}, ${rowIndex})">
+                                                            Add Column
+                                                        </button>
                                                     </div>
-
-                                                    <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper" 
-                                                         id="top-tab-${tabIndex}-row-${rowIndex}-columns"></div>
-                                                </div>
-
-                                                <button type="button" class="btn btn-sm btn-secondary mt-2"
-                                                        onclick="addNewTopColumn(${tabIndex}, ${rowIndex})">
-                                                    Add Column
-                                                </button>
-                                            </div>
-                                        `;
+                                                `;
 
             container.insertAdjacentHTML("beforeend", html);
         }
@@ -455,11 +471,11 @@
         function addNewTopColumn(tabIndex, rowIndex) {
             let container = document.getElementById(`top-tab-${tabIndex}-row-${rowIndex}-columns`);
             let html = `
-                                            <input type="text" 
-                                                   class="form-control mb-1"
-                                                   name="top_tabs[${tabIndex}][rows][${rowIndex}][cells][]" 
-                                                   placeholder="Value">
-                                        `;
+                                                    <input type="text" 
+                                                           class="form-control mb-1"
+                                                           name="top_tabs[${tabIndex}][rows][${rowIndex}][cells][]" 
+                                                           placeholder="Value">
+                                                `;
             container.insertAdjacentHTML("beforeend", html);
         }
     </script>
@@ -468,24 +484,24 @@
             let index = bottomTabIndex++;
 
             let html = `
-                                            <div class="card p-3 shadow-sm mb-3 new-bottom-tab" id="new-bottom-tab-${index}">
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <strong>New Bottom Tab</strong>
-                                                </div>
+                                                    <div class="card p-3 shadow-sm mb-3 new-bottom-tab" id="new-bottom-tab-${index}">
+                                                        <div class="d-flex justify-content-between mb-2">
+                                                            <strong>New Bottom Tab</strong>
+                                                        </div>
 
-                                                <input type="text" 
-                                                       name="bottom_tabs[${index}][title]" 
-                                                       class="form-control mb-3" 
-                                                       placeholder="Enter Tab Title">
+                                                        <input type="text" 
+                                                               name="bottom_tabs[${index}][title]" 
+                                                               class="form-control mb-3" 
+                                                               placeholder="Enter Tab Title">
 
-                                                <div class="tab-rows-inner" id="bottom-tab-${index}-rows"></div>
+                                                        <div class="tab-rows-inner" id="bottom-tab-${index}-rows"></div>
 
-                                                <button type="button" class="btn btn-sm btn-primary mt-2"
-                                                        onclick="addNewBottomRow(${index})">
-                                                    + Add Row
-                                                </button>
-                                            </div>
-                                        `;
+                                                        <button type="button" class="btn btn-sm btn-primary mt-2"
+                                                                onclick="addNewBottomRow(${index})">
+                                                            + Add Row
+                                                        </button>
+                                                    </div>
+                                                `;
 
             document.getElementById("bottom-tabs-wrapper").insertAdjacentHTML("beforeend", html);
         }
@@ -495,27 +511,27 @@
             let rowIndex = container.children.length;
 
             let html = `
-                                            <div class="border p-2 rounded mb-2">
-                                                <strong>Row</strong>
+                                                    <div class="border p-2 rounded mb-2">
+                                                        <strong>Row</strong>
 
-                                                <div class="row mt-2">
-                                                    <div class="col-md-3">
-                                                        <input type="text" 
-                                                               name="bottom_tabs[${tabIndex}][rows][${rowIndex}][label]" 
-                                                               class="form-control" 
-                                                               placeholder="Label">
+                                                        <div class="row mt-2">
+                                                            <div class="col-md-3">
+                                                                <input type="text" 
+                                                                       name="bottom_tabs[${tabIndex}][rows][${rowIndex}][label]" 
+                                                                       class="form-control" 
+                                                                       placeholder="Label">
+                                                            </div>
+
+                                                            <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"
+                                                                 id="bottom-tab-${tabIndex}-row-${rowIndex}-columns"></div>
+                                                        </div>
+
+                                                        <button type="button" class="btn btn-sm btn-secondary mt-2"
+                                                                onclick="addNewBottomColumn(${tabIndex}, ${rowIndex})">
+                                                            Add Column
+                                                        </button>
                                                     </div>
-
-                                                    <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"
-                                                         id="bottom-tab-${tabIndex}-row-${rowIndex}-columns"></div>
-                                                </div>
-
-                                                <button type="button" class="btn btn-sm btn-secondary mt-2"
-                                                        onclick="addNewBottomColumn(${tabIndex}, ${rowIndex})">
-                                                    Add Column
-                                                </button>
-                                            </div>
-                                        `;
+                                                `;
 
             container.insertAdjacentHTML("beforeend", html);
         }
@@ -523,11 +539,11 @@
         function addNewBottomColumn(tabIndex, rowIndex) {
             let container = document.getElementById(`bottom-tab-${tabIndex}-row-${rowIndex}-columns`);
             let html = `
-                                            <input type="text" 
-                                                   class="form-control mb-1"
-                                                   name="bottom_tabs[${tabIndex}][rows][${rowIndex}][cells][]" 
-                                                   placeholder="Value">
-                                        `;
+                                                    <input type="text" 
+                                                           class="form-control mb-1"
+                                                           name="bottom_tabs[${tabIndex}][rows][${rowIndex}][cells][]" 
+                                                           placeholder="Value">
+                                                `;
             container.insertAdjacentHTML("beforeend", html);
         }
     </script>

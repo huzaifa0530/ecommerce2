@@ -64,6 +64,12 @@
                         <span class="pcoded-mtext">Products</span>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->is('dashboard/contact') ? 'active' : '' }}">
+                    <a href="{{ route('contact') }}" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-mail"></i></span>
+                        <span class="pcoded-mtext">Contact</span>
+                    </a>
+                </li>
 
             </ul>
         </div>

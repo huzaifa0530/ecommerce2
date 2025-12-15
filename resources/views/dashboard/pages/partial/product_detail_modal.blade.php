@@ -118,6 +118,9 @@
     @if($bottomTabs->count() > 0)
 
         {{-- Tab Header --}}
+
+        why active tab is not applying by default when ic lcik then data sjow but sam ething perfectly work in top tab
+        
         <ul class="nav nav-tabs" role="tablist">
             @foreach($bottomTabs as $index => $tab)
                 <li class="nav-item">

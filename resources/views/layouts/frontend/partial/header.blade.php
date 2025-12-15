@@ -13,25 +13,33 @@
             </div>
             <div class="col-md-6 align-content-center">
                 <div class="header_top1m">
-                    <select name="categories" class="form-select  bg_light" required="">
-                        <option value="">All Categories</option>
-
-                        @foreach($allCategories as $cat)
-                            <!-- <option value="{{ $cat->id }}">{{ $cat->name }}</option> -->
-
-                            @foreach($cat->subcategories as $sub)
-                                <option value="{{ $sub->id }}">— {{ $sub->name }}</option>
+                    <form action="{{ route('product') }}" method="GET" id="categoryFilterForm">
+                        <select name="category_id" class="form-select bg_light" onchange="this.form.submit()">
+                            <option value="">All Categories</option>
+                            @foreach($allCategories as $cat)
+                                @foreach($cat->subcategories as $sub)
+                                    <option value="{{ $sub->id }}" {{ request('category_id') == $sub->id ? 'selected' : '' }}>
+                                        — {{ $sub->name }}
+                                    </option>
+                                @endforeach
                             @endforeach
-                        @endforeach
+                        </select>
+                    </form>
 
-                    </select>
 
                     <div class="input-group">
-                        <input type="text" class="form-control border-start-0" placeholder="Search for your item">
-                        <span class="input-group-btn">
-                            <button class="btn btn-primary bg_yell" type="button">
-                                <i class="fa fa-search"></i> </button>
-                        </span>
+
+
+                        <form action="{{ route('product') }}" method="GET" class="input-group" id="globalSearchForm">
+                            <input type="text" name="q" value="{{ request('q') }}" class="form-control border-start-0"
+                                placeholder="Search for your item">
+                            <span class="input-group-btn"></span>
+                            <button class="btn btn-primary bg_yell" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            </span>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -75,19 +83,18 @@
                             <i class="fa fa-navicon me-1"></i> BROWSER ALL CATEGORIES
                         </a>
                         <ul class="dropdown-menu drop_cat" aria-labelledby="navbarDropdown">
-
                             @foreach($allCategories as $cat)
                                 <li class="dropdown-submenu">
                                     <a class="dropdown-item dropdown-toggle" href="#">
-                                        <i class="fa fa-folder-open me-2 col_yell"></i>
-                                        {{ $cat->name }}
+                                        <i class="fa fa-folder-open me-2 col_yell"></i> {{ $cat->name }}
                                     </a>
 
                                     @if($cat->subcategories->count() > 0)
                                         <ul class="dropdown-menu">
                                             @foreach($cat->subcategories as $sub)
                                                 <li>
-                                                    <a class="dropdown-item">
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('product', ['category_id' => $sub->id]) }}">
                                                         {{ $sub->name }}
                                                     </a>
                                                 </li>
@@ -96,59 +103,31 @@
                                     @endif
                                 </li>
                             @endforeach
-
                         </ul>
-
                     </li>
 
+
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('about') }}">About</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('home') }}#new-arrival">
+                            New Arrival
+                        </a>
+                    </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">New Arrival </a>
+                        <a class="nav-link" href="{{ route('home') }}#deal">
+                            Special
+                        </a>
                     </li>
+
+
                     <li class="nav-item">
-                        <a class="nav-link" href="about.html">USA Made </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">Special</a>
-                    </li>
-                    <!-- <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Product
-          </a>
-          <ul class="dropdown-menu drop_2 drop_cat" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="product.html"><i class="fa fa-caret-right me-1 col_yell"></i> Product</a></li>
-            <li><a class="dropdown-item border-0" href="detail.html"><i class="fa fa-caret-right me-1 col_yell"></i> Product Detail</a></li>
-          </ul>
-        </li>
-		
-		<li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Blog
-          </a>
-          <ul class="dropdown-menu drop_2 drop_cat" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="blog.html"><i class="fa fa-caret-right me-1 col_yell"></i> Blog</a></li>
-            <li><a class="dropdown-item border-0" href="blog_detail.html"><i class="fa fa-caret-right me-1 col_yell"></i> Blog Detail</a></li>
-          </ul>
-        </li>
-		
-		<li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Pages
-          </a>
-          <ul class="dropdown-menu drop_2 drop_cat" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="cart.html"><i class="fa fa-caret-right me-1 col_yell"></i> Shopping Cart</a></li>
-            <li><a class="dropdown-item border-0" href="checkout.html"><i class="fa fa-caret-right me-1 col_yell"></i> Checkout</a></li>
-          </ul>
-        </li>
-		 -->
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
+                        <a class="nav-link" href="{{ route('contact') }}">Contact</a>
                     </li>
                     <!-- 		
 		
@@ -165,6 +144,44 @@
     </nav>
 </section>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get all submenu toggles
+        document.querySelectorAll('.dropdown-submenu > .dropdown-toggle').forEach(function (el) {
+            el.addEventListener('click', function (e) {
+                e.preventDefault(); // prevent default link behavior
+                e.stopPropagation(); // stop bootstrap closing all dropdowns
+
+                let submenu = this.nextElementSibling;
+                if (submenu) {
+                    submenu.classList.toggle('show');
+                }
+            });
+        });
+
+        // Close submenus when clicking outside
+        document.addEventListener('click', function (e) {
+            document.querySelectorAll('.dropdown-submenu .dropdown-menu').forEach(function (submenu) {
+                submenu.classList.remove('show');
+            });
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.location.hash) {
+            const target = document.querySelector(window.location.hash);
+            if (target) {
+                setTimeout(() => {
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                        block: "start"
+                    });
+                }, 300); // wait for page render
+            }
+        }
+    });
+</script>
 
 
 <!-- [ Header ] end -->

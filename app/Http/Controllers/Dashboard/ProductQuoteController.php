@@ -15,54 +15,52 @@ class ProductQuoteController extends Controller
 
         return view('dashboard.pages.products.quote', compact('product'));
     }
-   public function submit(Request $request, $id)
-{
-    $product = Product::with(['images', 'colors'])->findOrFail($id);
+    public function submit(Request $request, $id)
+    {
+        $product = Product::with(['images', 'colors'])->findOrFail($id);
 
-    $data = $request->validate([
-        'quantity' => 'nullable|string',
-        'zip' => 'nullable|string',
-        'company' => 'nullable|string',
-        'email' => 'nullable|email',
-        'phone' => 'nullable|string',
-        'asi' => 'nullable|string',
-        'in_hand_date' => 'nullable|string',
-        'need_freight' => 'nullable|string',
-        'loading_dock' => 'nullable|string',
-        'message' => 'nullable|string',
-        'attachment1' => 'nullable|file|max:10240',
-        'attachment2' => 'nullable|file|max:10240',
-    ]);
+        $data = $request->validate([
+            'quantity' => 'nullable|string',
+            'zip' => 'nullable|string',
+            'company' => 'nullable|string',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|string',
+            'asi' => 'nullable|string',
+            'in_hand_date' => 'nullable|string',
+            'need_freight' => 'nullable|string',
+            'loading_dock' => 'nullable|string',
+            'message' => 'nullable|string',
+            'attachments.*' => 'nullable|file|max:10240', // <--- handle array of files
+        ]);
 
-    // Save attachments
-    if ($request->hasFile('attachment1')) {
-        $data['attachment1'] = $request->file('attachment1')->store('quotes', 'public');
+        // Store all attachments
+        $storedAttachments = [];
+        if ($request->hasFile('attachments')) {
+            foreach ($request->file('attachments') as $file) {
+                $storedAttachments[] = $file->store('quotes', 'public');
+            }
+        }
+        $data['attachments'] = $storedAttachments;
+
+        try {
+            $requestType = $request->input('request_type'); // "Request Mockup" or "Quotation"
+            $data['request_type'] = $requestType;
+            $data['colors'] = $request->input('colors', []); // <-- defaults to empty array
+
+            // Example: Change email subject dynamically
+            $subject = $requestType . ' - ' . $product->name;
+
+
+            Mail::to('mhuzaifa05302@gmail.com')->send(new \App\Mail\ProductQuoteMail($product, $data, $subject));
+
+            \Log::info('Product quote email sent successfully for product ID: ' . $product->id);
+
+            return back()->with('success', 'Quote request sent successfully!');
+
+        } catch (\Exception $e) {
+            \Log::error('Product quote email failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send quote request. Check logs for details.');
+        }
     }
-
-    if ($request->hasFile('attachment2')) {
-        $data['attachment2'] = $request->file('attachment2')->store('quotes', 'public');
-    }
-
-    try {
-        Mail::to('mhuzaifa05302@gmail.com')->send(new \App\Mail\ProductQuoteMail($product, $data));
-
-        // Log success
-        \Log::info('Product quote email sent successfully for product ID: ' . $product->id);
-
-        // Send console log to browser
-        echo "<script>console.log('Email sent successfully for product ID: {$product->id}');</script>";
-
-        return back()->with('success', 'Quote request sent successfully!');
-
-    } catch (\Exception $e) {
-        // Log the full exception
-        \Log::error('Product quote email failed: ' . $e->getMessage());
-
-        // Print error to browser console
-        echo "<script>console.error('Email sending failed: " . addslashes($e->getMessage()) . "');</script>";
-
-        return back()->with('error', 'Failed to send quote request. Check logs for details.');
-    }
-}
 
 }

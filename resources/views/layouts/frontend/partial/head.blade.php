@@ -8,7 +8,14 @@
     <link href="{{ asset('User/css/global.css')}}" rel="stylesheet">
     <link href="{{ asset('User/css/index.css')}}" rel="stylesheet">
     <link href="{{ asset('User/css/detail.css')}}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
-
+    <style>
+        #new-arrival,
+        #deal {
+            scroll-margin-top: 100px;
+            /* adjust to navbar height */
+        }
+    </style>
 </head>

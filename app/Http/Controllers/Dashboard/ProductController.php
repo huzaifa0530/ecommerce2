@@ -43,8 +43,10 @@ class ProductController extends Controller
             ]));
 
             // ✔ Save colors
+            // ✔ Save colors
             if ($request->colors) {
-                foreach ($request->colors as $index => $colorName) {
+                foreach ($request->colors as $index => $colorCode) {
+
                     $colorImage = null;
                     if ($request->color_images[$index] ?? false) {
                         $colorImage = $request->color_images[$index]->store('color_images', 'public');
@@ -52,7 +54,8 @@ class ProductController extends Controller
 
                     ProductColor::create([
                         'product_id' => $product->id,
-                        'color_name' => $colorName,
+                        'color_name' => $request->color_names[$index] ?? null, // TEXT NAME
+                        'color_code' => $colorCode, // HEX CODE
                         'color_image' => $colorImage
                     ]);
                 }
@@ -181,24 +184,30 @@ class ProductController extends Controller
             // UPDATE OLD COLORS
             // --------------------------
             if ($request->old_colors) {
-                foreach ($request->old_colors as $colorId => $colorName) {
+                foreach ($request->old_colors as $colorId => $colorCode) {
                     $color = ProductColor::find($colorId);
                     if (!$color)
                         continue;
 
-                    $color->color_name = $colorName;
+                    $color->color_name = $request->old_color_names[$colorId] ?? $color->color_name;
+                    $color->color_code = $colorCode;
+
                     if ($request->old_color_images[$colorId] ?? false) {
-                        $color->color_image = $request->old_color_images[$colorId]->store('color_images', 'public');
+                        $color->color_image = $request->old_color_images[$colorId]
+                            ->store('color_images', 'public');
                     }
+
                     $color->save();
                 }
             }
+
 
             // --------------------------
             // ADD NEW COLORS
             // --------------------------
             if ($request->colors) {
-                foreach ($request->colors as $index => $colorName) {
+                foreach ($request->colors as $index => $colorCode) {
+
                     $colorImage = null;
                     if ($request->color_images[$index] ?? false) {
                         $colorImage = $request->color_images[$index]->store('color_images', 'public');
@@ -206,7 +215,8 @@ class ProductController extends Controller
 
                     ProductColor::create([
                         'product_id' => $product->id,
-                        'color_name' => $colorName,
+                        'color_name' => $request->color_names[$index] ?? null,
+                        'color_code' => $colorCode,
                         'color_image' => $colorImage
                     ]);
                 }

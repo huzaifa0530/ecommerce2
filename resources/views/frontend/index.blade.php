@@ -85,7 +85,7 @@
 				</div>
 			</a>
 			<a class="acc-item" href="#">
-				<img class="acc-img" src="img/Drinkware.jpeg" alt="4K Action Camera">
+				<img class="acc-img" src="{{ asset('User/img/Drinkware.jpeg') }}" alt="4K Action Camera">
 				<div class="acc-overlay">
 					<div>
 						<h3 class="acc-title h5">Drinkware</h3>
@@ -340,6 +340,81 @@
 
 </div>
 </div>
+<div class="container my-5" id="new-arrival">
+
+    <div class="promo-banner">
+        <div class="row align-items-center">
+
+            <!-- Text Content (optional: use first product for title) -->
+            <div class="col-md-7">
+                <div class="promo-subtitle mb-2">New Arrival</div>
+                <h1 class="promo-title mb-3">{{ $newProducts->first()->name ?? 'Feel-Good Shopping' }}</h1>
+                <p class="promo-text mb-4">
+                    Discover our latest products...
+                </p>
+            </div>
+
+            <!-- Carousel Images -->
+            <div class="col-md-5">
+                <div class="deal_1r2" style="border: none; margin: 0; padding: 0;">
+                    <div id="carouselNewProducts" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500">
+                        <div class="carousel-inner">
+                            @foreach($newProducts as $key => $product)
+                                <div class="carousel-item {{ $key == 0 ? 'active' : '' }}">
+                                    <div class="deal_1r2i row justify-content-center">
+                                        <div class="col-md-8">
+                                            <div class="prod_2im position-relative clearfix">
+                                                <div class="prod_2i1 clearfix">
+                                                    <div class="grid clearfix">
+                                                        <figure class="effect-jazz mb-0">
+                                                            <a href="{{ route('detail', $product->id) }}">
+                                                               			<img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="w-100"
+											alt="{{ $product->name }}">
+                                                            </a>
+                                                        </figure>
+                                                    </div>
+                                                </div>
+                                                <div class="prod_2i2 pt-4 pb-4 ps-3 pe-3 clearfix" style="background-color: white;">
+                                                    <h6><a href="{{ route('detail', $product->id) }}">{{ $product->name }}</a></h6>
+                                                    <h6 class="font_13"><a class="col_light" href="{{ route('detail', $product->id) }}">
+                                                        {{ $product->item_size ?? '' }}
+                                                    </a></h6>
+                                                    <hr>
+                                                    @if($product->special_price_after)
+                                                        <h6 class="fw-normal mb-0">
+                                                            <span class="pull-right fw-bold col_yell">${{ $product->special_price_after }}</span>
+                                                        </h6>
+                                                    @endif
+                                                </div>
+                                                <div class="prod_2i3 clearfix position-absolute w-100">
+                                                    <h6 class="bg_yell d-inline-block pt-1 pb-1 font_13 text-white ps-3 pe-3">
+                                                        {{ $product->item_number ?? '' }}
+                                                    </h6>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+
+                        <!-- Carousel Controls -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselNewProducts" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselNewProducts" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 
@@ -451,6 +526,8 @@
 			</div>
 		</div>
 	</section>
+
+	
 
 	<!-- <section id="subs" class="pt-5 pb-5 bg_blue">
 			<div class="container-xl">

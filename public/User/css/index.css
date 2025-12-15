@@ -422,3 +422,61 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
         font-size: 0.6rem;
     }
 }
+
+
+
+/* New Arrival Banners */
+
+ .promo-banner {
+      background-color: #6b4fa3;
+      border-radius: 20px;
+      color: #fff;
+      padding: 2rem;
+      overflow: hidden;
+    }
+
+    .promo-subtitle {
+      font-size: 0.9rem;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .promo-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .promo-text {
+      opacity: 0.85;
+      max-width: 420px;
+    }
+
+    .promo-price {
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    .promo-images img {
+      max-width: 110px;
+      transform: rotate(-10deg);
+    }
+
+    .promo-images img:nth-child(2) {
+      transform: rotate(5deg);
+      margin-top: -20px;
+    }
+
+    .promo-images img:nth-child(3) {
+      transform: rotate(15deg);
+    }
+
+    @media (max-width: 768px) {
+      .promo-title {
+        font-size: 2rem;
+      }
+      .promo-images {
+        margin-top: 2rem;
+        justify-content: center;
+      }
+    }

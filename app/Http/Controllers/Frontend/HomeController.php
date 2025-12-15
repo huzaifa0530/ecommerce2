@@ -9,11 +9,20 @@ use App\Models\ProductTab;
 use App\Models\ProductTabRow;
 use App\Models\ProductPrice;
 use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use ZipArchive;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 class HomeController extends Controller
 {
 
     public function index()
     {
+        $newProducts = Product::with(['images', 'colors', 'tabs'])
+            ->latest()
+            ->take(5)
+            ->get();
         // Special Offer Products
         $products = Product::with(['images', 'colors', 'tabs'])
             ->where('is_special_offer', 1)
@@ -28,7 +37,7 @@ class HomeController extends Controller
             ->take(12)
             ->get();
 
-        return view('frontend.index', compact('products', 'popularProducts'));
+        return view('frontend.index', compact('newProducts', 'products', 'popularProducts'));
     }
     public function about()
     {
@@ -36,6 +45,63 @@ class HomeController extends Controller
         return view('frontend.about');
     }
 
+    public function product(Request $request)
+    {
+        $query = Product::query()
+            ->with(['images', 'colors'])
+            ->select('products.*'); // IMPORTANT
+
+        // 🔍 Search
+        if ($request->filled('q')) {
+            $query->where('name', 'LIKE', '%' . $request->q . '%');
+        }
+        if ($request->filled('category_id')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('category_id', $request->category_id)
+                    ->orWhereHas('category', function ($q2) use ($request) {
+                        $q2->where('parent_id', $request->category_id);
+                    });
+            });
+        }
+
+        // 🎨 Color filter (OR logic)
+        // 🎨 Color filter (OR logic)
+        if ($request->filled('colors')) {
+
+            $selectedColors = collect(explode(',', $request->colors))
+                ->map(fn($c) => strtolower(trim($c)))
+                ->filter() // remove empty
+                ->unique()
+                ->values()
+                ->toArray();
+
+            if (!empty($selectedColors)) {
+                $query->whereHas('colors', function ($q) use ($selectedColors) {
+                    $q->whereIn(
+                        DB::raw('LOWER(color_name)'),
+                        $selectedColors
+                    );
+                });
+            }
+        }
+
+
+        // ✅ VERY IMPORTANT: remove duplicates
+        $products = $query
+            ->distinct('products.id')
+            ->paginate(9)
+            ->withQueryString();
+
+        // 🎨 distinct colors list
+        $colors = ProductColor::query()
+            ->select('color_name', DB::raw('MIN(color_code) as color_code'))
+            ->groupBy('color_name')
+            ->orderBy('color_name')
+            ->get();
+
+
+        return view('frontend.product', compact('products', 'colors'));
+    }
 
     public function detail($id)
     {
@@ -44,12 +110,95 @@ class HomeController extends Controller
             'images',
             'colors',
             'tabs.rows.cells',
-
         ])->findOrFail($id);
 
-        return view('frontend.detail', compact('product'));
+        $category = $product->category;
+
+
+        if ($category->parent_id !== null) {
+            $relatedProducts = Product::where('category_id', $category->id)
+                ->where('id', '!=', $product->id)
+                ->take(8)
+                ->get();
+        } else {
+
+            $relatedProducts = collect();
+        }
+
+        return view('frontend.detail', compact('product', 'relatedProducts'));
     }
 
 
+    public function downloadAllImages($id)
+    {
+        $product = Product::with(['images', 'colors'])->findOrFail($id);
 
+        $zip = new ZipArchive;
+        $zipFileName = 'product-' . $product->id . '-images.zip';
+        $zipPath = storage_path('app/public/' . $zipFileName);
+
+        if ($zip->open($zipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE)) {
+
+            foreach ($product->images as $img) {
+                $filePath = storage_path('app/public/' . $img->image_path);
+                if (file_exists($filePath)) {
+                    $zip->addFile($filePath, 'main/' . basename($filePath));
+                }
+            }
+
+            foreach ($product->colors as $color) {
+                $filePath = storage_path('app/public/' . $color->color_image);
+                if (file_exists($filePath)) {
+                    $zip->addFile($filePath, 'colors/' . basename($filePath));
+                }
+            }
+
+            $zip->close();
+        }
+
+        return response()->download($zipPath)->deleteFileAfterSend(true);
+    }
+
+
+    public function downloadSingleImage($id)
+    {
+        // Try ProductImage first
+        $image = ProductImage::find($id);
+        $path = null;
+
+        if ($image) {
+            $path = $image->image_path;
+        } else {
+            // Try ProductColor
+            $color = ProductColor::findOrFail($id);
+            $path = $color->color_image;
+        }
+
+        $filePath = storage_path('app/public/' . $path);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        return response()->download($filePath);
+    }
+    public function submitEstimate(Request $request)
+    {
+        $data = $request->validate([
+            'quantity' => 'required|integer',
+            'country' => 'required|string',
+            'state' => 'required|string',
+            'zip' => 'required|string',
+            'residential' => 'nullable|string',
+        ]);
+
+        try {
+            Mail::to('mhuzaifa05302@gmail.com')->send(new \App\Mail\FreightEstimateMail($data));
+
+            return back()->with('success', 'Freight estimate request sent successfully!');
+        } catch (\Exception $e) {
+            \Log::error('Freight email failed: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send email.');
+        }
+    }
 }

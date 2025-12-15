@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\OtpVerificationController;
 use App\Http\Controllers\Dashboard\ProductPrintController;
 use App\Http\Controllers\Dashboard\ProductController;
 use App\Http\Controllers\Dashboard\ProductQuoteController;
+use App\Http\Controllers\Frontend\ContactController;
 
 use App\Http\Controllers\Frontend\HomeController;
 
@@ -96,7 +97,23 @@ Route::post('/products/{id}/popular-toggle', [ProductController::class, 'toggleP
     ->name('products.popular.toggle');
 
 Route::get('/About', [HomeController::class, 'about'])->name('about');
+
+Route::get('/product', [HomeController::class, 'product'])->name('product');
 Route::get('/special-offers', [HomeController::class, 'specialOffere'])
     ->name('special.offers');
+
+
+Route::get('/dashboard/contact', [ContactController::class, 'index'])->name('contact');
+Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::get(
+    '/product/{id}/download-images',
+    [HomeController::class, 'downloadAllImages']
+)->name('product.images.download.all');
+Route::get('/image/download/{id}', [HomeController::class, 'downloadSingleImage'])
+    ->name('image.download');
+
+
+Route::post('/freight/submit', [HomeController::class, 'submitEstimate'])->name('freight.submit');
 
 require __DIR__ . '/auth.php';
