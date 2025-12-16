@@ -44,15 +44,16 @@
         @foreach($product->colors as $color)
             <div class="text-center mr-2">
                 @if($color->color_image)
-                    <img src="{{ asset('storage/' . $color->color_image) }}" class="img-thumbnail mb-1" width="50" style="height:60px">
+                    <img src="{{ asset('storage/' . $color->color_image) }}" class="img-thumbnail mb-1" width="50"
+                        style="height:60px">
                 @endif
                 <div style="
-                    width:40px;
-                    height:40px;
-                    border-radius:6px;
-                    border:1px solid #ccc;
-                    background: {{ $color->color_name }};
-                ">
+                        width:40px;
+                        height:40px;
+                        border-radius:6px;
+                        border:1px solid #ccc;
+                        background: {{ $color->color_name }};
+                    ">
                 </div>
             </div>
         @endforeach
@@ -109,22 +110,20 @@
 
     <hr>
 
+
     {{-- Bottom Tabs --}}
     <h6>Bottom Tabs</h6>
     @php
-        $bottomTabs = $product->tabs->where('section', 'bottom');
+        $bottomTabs = $product->tabs->where('section', 'bottom')->values();
     @endphp
 
-    @if($bottomTabs->count() > 0)
+    @if($bottomTabs->count())
 
-        {{-- Tab Header --}}
-
-        why active tab is not applying by default when ic lcik then data sjow but sam ething perfectly work in top tab
-        
+        {{-- Tab Headers --}}
         <ul class="nav nav-tabs" role="tablist">
             @foreach($bottomTabs as $index => $tab)
                 <li class="nav-item">
-                    <a class="nav-link {{ $index == 0 ? 'active' : '' }}" data-toggle="tab" href="#bottom-tab-{{ $tab->id }}"
+                    <a class="nav-link {{ $index === 0 ? 'active' : '' }}" data-toggle="tab" href="#bottom-tab-{{ $tab->id }}"
                         role="tab">
                         {{ $tab->title }}
                     </a>
@@ -134,11 +133,8 @@
 
         {{-- Tab Content --}}
         <div class="tab-content border p-2">
-
             @foreach($bottomTabs as $index => $tab)
-                <div class="tab-pane fade {{ $index == 0 ? 'show active' : '' }}" id="bottom-tab-{{ $tab->id }}"
-                    role="tabpanel">
-
+                <div class="tab-pane  {{ $index === 0 ? 'in active' : '' }}" id="bottom-tab-{{ $tab->id }}" role="tabpanel">
                     <div class="table-scroll">
                         <table class="table table-sm table-bordered mb-2">
                             <tbody>
@@ -153,11 +149,10 @@
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             @endforeach
-
         </div>
+
     @endif
 
     <hr>

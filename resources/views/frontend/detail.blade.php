@@ -96,60 +96,60 @@
         }
 
     @endphp
-@php
-$usStates = [
-    'AL' => 'Alabama',
-    'AK' => 'Alaska',
-    'AZ' => 'Arizona',
-    'AR' => 'Arkansas',
-    'CA' => 'California',
-    'CO' => 'Colorado',
-    'CT' => 'Connecticut',
-    'DE' => 'Delaware',
-    'FL' => 'Florida',
-    'GA' => 'Georgia',
-    'HI' => 'Hawaii',
-    'ID' => 'Idaho',
-    'IL' => 'Illinois',
-    'IN' => 'Indiana',
-    'IA' => 'Iowa',
-    'KS' => 'Kansas',
-    'KY' => 'Kentucky',
-    'LA' => 'Louisiana',
-    'ME' => 'Maine',
-    'MD' => 'Maryland',
-    'MA' => 'Massachusetts',
-    'MI' => 'Michigan',
-    'MN' => 'Minnesota',
-    'MS' => 'Mississippi',
-    'MO' => 'Missouri',
-    'MT' => 'Montana',
-    'NE' => 'Nebraska',
-    'NV' => 'Nevada',
-    'NH' => 'New Hampshire',
-    'NJ' => 'New Jersey',
-    'NM' => 'New Mexico',
-    'NY' => 'New York',
-    'NC' => 'North Carolina',
-    'ND' => 'North Dakota',
-    'OH' => 'Ohio',
-    'OK' => 'Oklahoma',
-    'OR' => 'Oregon',
-    'PA' => 'Pennsylvania',
-    'RI' => 'Rhode Island',
-    'SC' => 'South Carolina',
-    'SD' => 'South Dakota',
-    'TN' => 'Tennessee',
-    'TX' => 'Texas',
-    'UT' => 'Utah',
-    'VT' => 'Vermont',
-    'VA' => 'Virginia',
-    'WA' => 'Washington',
-    'WV' => 'West Virginia',
-    'WI' => 'Wisconsin',
-    'WY' => 'Wyoming',
-];
-@endphp
+    @php
+        $usStates = [
+            'AL' => 'Alabama',
+            'AK' => 'Alaska',
+            'AZ' => 'Arizona',
+            'AR' => 'Arkansas',
+            'CA' => 'California',
+            'CO' => 'Colorado',
+            'CT' => 'Connecticut',
+            'DE' => 'Delaware',
+            'FL' => 'Florida',
+            'GA' => 'Georgia',
+            'HI' => 'Hawaii',
+            'ID' => 'Idaho',
+            'IL' => 'Illinois',
+            'IN' => 'Indiana',
+            'IA' => 'Iowa',
+            'KS' => 'Kansas',
+            'KY' => 'Kentucky',
+            'LA' => 'Louisiana',
+            'ME' => 'Maine',
+            'MD' => 'Maryland',
+            'MA' => 'Massachusetts',
+            'MI' => 'Michigan',
+            'MN' => 'Minnesota',
+            'MS' => 'Mississippi',
+            'MO' => 'Missouri',
+            'MT' => 'Montana',
+            'NE' => 'Nebraska',
+            'NV' => 'Nevada',
+            'NH' => 'New Hampshire',
+            'NJ' => 'New Jersey',
+            'NM' => 'New Mexico',
+            'NY' => 'New York',
+            'NC' => 'North Carolina',
+            'ND' => 'North Dakota',
+            'OH' => 'Ohio',
+            'OK' => 'Oklahoma',
+            'OR' => 'Oregon',
+            'PA' => 'Pennsylvania',
+            'RI' => 'Rhode Island',
+            'SC' => 'South Carolina',
+            'SD' => 'South Dakota',
+            'TN' => 'Tennessee',
+            'TX' => 'Texas',
+            'UT' => 'Utah',
+            'VT' => 'Vermont',
+            'VA' => 'Virginia',
+            'WA' => 'Washington',
+            'WV' => 'West Virginia',
+            'WI' => 'Wisconsin',
+            'WY' => 'Wyoming',
+        ];
+    @endphp
 
     <style>
         .thumb-img {
@@ -256,11 +256,11 @@ $usStates = [
                                         data-image="{{ asset('storage/' . $color->color_image) }}"
                                         title="{{ $color->color_name }}"
                                         style="display:inline-block;
-                                                                                                                                                                                                          width:26px;
-                                                                                                                                                                                                          height:26px;
-                                                                                                                                                                                                          background: {{ $color->color_code  }};
-                                                                                                                                                                                                          border:2px solid #e5e7eb;
-                                                                                                                                             box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);">
+                                                                                                                                                                                                                  width:26px;
+                                                                                                                                                                                                                  height:26px;
+                                                                                                                                                                                                                  background: {{ $color->color_code  }};
+                                                                                                                                                                                                                  border:2px solid #e5e7eb;
+                                                                                                                                                     box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);">
                                     </a>
 
                                 </li>
@@ -348,7 +348,7 @@ $usStates = [
                                                                         {{-- Table Body: All Rows except First --}}
                                                                         <tbody>
                                                                             @foreach($tab->rows->slice(1) as $rowIndex => $row)
-                                                                                <tr class="pricing-row {{ $rowIndex >= 1 ? 'd-none extra-row' : '' }}"
+                                                                                <tr class="pricing-row {{ $rowIndex >= 2 ? 'd-none extra-row' : '' }}"
                                                                                     data-tab="{{ $tab->id }}">
                                                                                     <th scope="row">{{ $row->label }}</th>
                                                                                     @foreach($row->cells as $cell)
@@ -360,7 +360,7 @@ $usStates = [
 
                                                                     @endif
                                                                 </table>
-                                                                @if($tab->rows->count() > 1)
+                                                                @if($tab->rows->count() > 2)
                                                                     <div class="text-center mt-3">
                                                                         <button class="btn btn-outline-primary show-more-btn"
                                                                             data-tab="{{ $tab->id }}">
@@ -387,7 +387,8 @@ $usStates = [
                                 <div class="col-12 col-md-6">
                                     <a href="#" class="d-block position-relative rounded-2 overflow-hidden quotationBtn"
                                         data-bs-toggle="modal" data-bs-target="#quotationModal" data-modal-title="Quotation"
-                                        style="height:150px; background:url('img/request.jpeg') center/cover no-repeat;">
+                                        style="height:150px;
+                  background:url('{{ asset('User/img/quote.jpeg') }}') center/cover no-repeat;">
                                         <span class="position-absolute top-0 start-0 m-3 text-white fw-bold"
                                             style="text-shadow:0 1px 2px rgba(0,0,0,.5);">
                                             Request Quotation
@@ -395,19 +396,18 @@ $usStates = [
                                     </a>
                                 </div>
 
-
-
                                 <div class="col-12 col-md-6">
                                     <a href="#" class="d-block position-relative rounded-2 overflow-hidden mockupBtn"
                                         data-bs-toggle="modal" data-bs-target="#quotationModal"
-                                        data-modal-title="Request Mockup"
-                                        style="height:150px; background:url('img/request.jpeg') center/cover no-repeat;">
+                                        data-modal-title="Request Mockup" style="height:150px;
+                  background:url('{{ asset('User/img/mockup.jpeg') }}') center/cover no-repeat;">
                                         <span class="position-absolute top-0 start-0 m-3 text-white fw-bold"
                                             style="text-shadow:0 1px 2px rgba(0,0,0,.5);">
                                             Request Mockup
                                         </span>
                                     </a>
                                 </div>
+
                             </div>
                         </div>
                         <div class="d-flex flex-wrap justify-content-start gap-3 mt-3 mb-4">
@@ -511,7 +511,7 @@ $usStates = [
                                                             <figure class="effect-jazz mb-0">
                                                                 <a href="{{ url('product/' . $item->id) }}">
                                                                     <img src="{{ asset('storage/' . ($item->images->first()->image_path ?? 'default.jpg')) }}"
-                                                                        class="w-100" alt="{{ $item->name }}">
+                                                                        class="w-100" alt="{{ $item->name }}" style="height: 250px;width250px">
                                                                 </a>
                                                             </figure>
                                                         </div>

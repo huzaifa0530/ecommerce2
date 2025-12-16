@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2025 at 10:59 PM
+-- Generation Time: Dec 16, 2025 at 07:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -73,6 +73,30 @@ INSERT INTO `categories` (`id`, `name`, `slug`, `parent_id`, `created_at`, `upda
 (10, 'T Shirts', 't-shirts', 9, '2025-11-22 10:39:43', '2025-11-22 10:39:43'),
 (11, 'Bags & Backpacks', 'bags-backpacks', NULL, '2025-11-22 11:28:15', '2025-11-22 11:28:15'),
 (12, 'Tote Bags', 'tote-bags', 11, '2025-11-22 11:28:31', '2025-11-22 11:28:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contacts`
+--
+
+CREATE TABLE `contacts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `first_name`, `last_name`, `email`, `phone`, `message`, `created_at`, `updated_at`) VALUES
+(1, 'saas', 'saas', 'admin@gmail.com', '03002425897', 'xzxz', '2025-12-13 14:47:34', '2025-12-13 14:47:34');
 
 -- --------------------------------------------------------
 
@@ -155,7 +179,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2025_11_19_160924_create_product_prices_table', 12),
 (13, '2025_11_19_182647_add_section_to_product_tabs_table', 14),
 (14, '2025_11_19_172520_create_product_tab_cells_table', 15),
-(15, '2025_12_09_190721_add_special_offer_and_popular_fields_to_products_table', 16);
+(15, '2025_12_09_190721_add_special_offer_and_popular_fields_to_products_table', 16),
+(16, '2025_12_13_175514_create_contacts_table', 17),
+(17, '2025_12_13_195221_add_color_fields_to_product_colors_table', 18);
 
 -- --------------------------------------------------------
 
@@ -206,7 +232,11 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `item_number`, `description
 (9, 1, 'dsds', 'dsds', 'sd', 'dsds', 'dsds', 'ds', NULL, 0, 0, NULL, NULL, '2025-11-23 09:59:59', '2025-11-23 09:59:59'),
 (10, 1, 'xsdsa', 'assa', 'sasa', 'assa', 'sa', 'sasa', NULL, 0, 0, NULL, NULL, '2025-11-23 11:16:42', '2025-11-23 11:16:42'),
 (11, 12, 'sasa', 'IB600333', 'cxcx', '100% Cotton Canvas33', '20\"W x 15\"H x 5\"D33', '12\"W x 10\"H33', NULL, 0, 0, NULL, NULL, '2025-11-25 10:45:59', '2025-11-25 10:53:22'),
-(12, 11, 'Canvas Jumbo Tote w/ Bottom Gusset', 'TB600', '12oz, Canvas, 100% Cotton, Jumbo tote with bottom gusset soft web handles. Reinforced at stress points.', '100% Cotton Canvas', '20\"W x 15\"H x 5\"D', '12\"W x 10\"H (Note: Imprint size can be bigger on this product with an upcharge; please do contact customer service for details).', NULL, 1, 1, 4000.00, 5000.00, '2025-12-09 11:53:59', '2025-12-10 10:41:30');
+(12, 12, 'Canvas Jumbo Tote w/ Bottom Gusset', 'TB600', '12oz, Canvas, 100% Cotton, Jumbo tote with bottom gusset soft web handles. Reinforced at stress points.', '100% Cotton Canvas', '20\"W x 15\"H x 5\"D', '12\"W x 10\"H (Note: Imprint size can be bigger on this product with an upcharge; please do contact customer service for details).', NULL, 1, 1, 4000.00, 5000.00, '2025-12-09 11:53:59', '2025-12-11 10:58:38'),
+(13, 12, 'test121', 'IB60033', 's', '100% Cotton Canvas33', '20\"W x 15\"H x 5\"D', '12\"W x 10\"H (Note: Imprint size can be bigger on this product with an upcharge; please do contact customer service for details).', NULL, 0, 0, NULL, NULL, '2025-12-13 12:21:35', '2025-12-13 12:21:35'),
+(14, 12, 'Canvas Jumbo Tote w/ Bottom Gusset', 'IB600', '12oz, Canvas, 100% Cotton, Jumbo tote with bottom gusset soft web handles. Reinforced at stress points.', '100% Cotton Canvas', '20\"W x 15\"H x 5\"D', '12\"W x 10\"H', NULL, 0, 0, NULL, NULL, '2025-12-13 13:29:10', '2025-12-13 13:36:50'),
+(15, 12, 'test13', 'IB60033', 'asssa', '100% Cotton Canvas33', '20\"W x 15\"H x 5\"D33', '12\"W x 10\"H (Note: Imprint size can be bigger on this product with an upcharge; please do contact customer service for details).', NULL, 0, 0, NULL, NULL, '2025-12-13 15:17:07', '2025-12-13 15:17:07'),
+(16, 12, 'Canvas Big Tote Bag with Velcro Closure', 'TB1200', '12oz, Canvas, 100% Cotton large tote bag with velcro closure self-fabric handles & bottom gusset. Reinforced at stress points.', '100% Cotton Canvas', '23\"W x 17\"H x 6\"D', '12\"W x 12\"H (Note: Imprint size can be bigger on this product with an upcharge; please do contact customer service for details).', NULL, 0, 0, NULL, NULL, '2025-12-15 13:17:42', '2025-12-15 13:17:42');
 
 -- --------------------------------------------------------
 
@@ -218,6 +248,7 @@ CREATE TABLE `product_colors` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED NOT NULL,
   `color_name` varchar(255) NOT NULL,
+  `color_code` varchar(10) NOT NULL,
   `color_image` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -227,30 +258,48 @@ CREATE TABLE `product_colors` (
 -- Dumping data for table `product_colors`
 --
 
-INSERT INTO `product_colors` (`id`, `product_id`, `color_name`, `color_image`, `created_at`, `updated_at`) VALUES
-(4, 3, 'red', 'color_images/B8Y2OzG3bMZI1p5yFJgyzwp80ohD41A1kB52x15E.png', '2025-11-20 13:37:59', '2025-11-20 13:37:59'),
-(5, 4, 'red', 'color_images/eTZtb1XLMhNNL9YEBvxoAURz1KpKAZ4cJQ47wsNn.jpg', '2025-11-20 13:52:18', '2025-11-20 13:52:18'),
-(6, 4, 'purple', 'color_images/mMysfdT8ORjnnRcdSSu4wTWJK38APiF2BhQvaTil.jpg', '2025-11-20 13:52:18', '2025-11-20 13:52:18'),
-(7, 5, 'red', 'color_images/2ovGz1YRDvfDcNDKBa2u8ZX441qEJIbL1BFzu2Wo.png', '2025-11-22 08:33:15', '2025-11-22 08:33:15'),
-(8, 6, 'red', 'color_images/QVriJcPt8M7XzTlR35y7qKGw0TeSy8YuqgLTGNAW.jpg', '2025-11-22 10:52:01', '2025-11-22 10:52:01'),
-(9, 6, 'black', 'color_images/2DJ1PdzrL15akLiO0l5aWaoIKPn1PrVObuTUytIl.jpg', '2025-11-22 10:52:01', '2025-11-22 10:52:01'),
-(10, 6, 'purple', 'color_images/fdyHM5zwrTJSPnf62w1dOXZlB3yGREKFn9Ws7jIb.jpg', '2025-11-22 10:52:01', '2025-11-22 10:52:01'),
-(15, 8, 'red', 'color_images/Uq2ibysPQBTtQAGGffVGiI2YkCKpZZbDp4Ld2lD7.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
-(16, 8, 'lime green', 'color_images/iDXz3tnl8NEt06qzSqwwx38iZqoVhcisZhMZIq90.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
-(17, 8, 'Navy', 'color_images/sbakiXhUBQfEplc7GMFnp09Nae5wJdB3Vtb7HGWl.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
-(18, 8, 'black', 'color_images/0DljyyxlEjd6rgS8HWGOJYfhJUVdTwJGH7xqD2wT.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
-(19, 8, 'light pink', 'color_images/yzKulnGLGKOvEid8StbXYEKMhCXvLFbSRocOqFTT.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
-(20, 8, '333', 'color_images/K9FwmYbeRGOazMAmJMXnqAEh3nPgVbhe8voLmqYS.jpg', '2025-11-23 08:48:58', '2025-11-23 08:48:58'),
-(21, 9, 'dsds', 'color_images/XXdEF0nUs0cTfFC7RIUBvziLHTZqNnwOxx4smoXt.jpg', '2025-11-23 09:59:59', '2025-11-23 09:59:59'),
-(22, 10, 'sasa', 'color_images/UEu80eLbIujQUdyirwb4Yg7TrPnN6IojVteZHfh1.jpg', '2025-11-23 11:16:42', '2025-11-23 11:16:42'),
-(23, 11, '#b11b1b', 'color_images/gCsZqtNzQ54t0BjOuVENJhN0I04L6mHTCLcUj0Ra.jpg', '2025-11-25 10:46:00', '2025-11-25 10:46:00'),
-(24, 11, '#0fc22d', 'color_images/QRHGT4KBe1LLxt49LB3Bu6bp5iC7iAPpVs7i5hOb.png', '2025-11-25 10:46:00', '2025-11-25 10:46:00'),
-(25, 11, '#dccb09', 'color_images/rLiczQ0IMPMcIaQNaxokxGLJ5EKMQwbzzNZ0g035.jpg', '2025-11-25 10:46:00', '2025-11-25 10:53:22'),
-(27, 12, '#000000', 'color_images/abpUkNXQhw9p4FS5LYC2AHEGq33YStXOfJRcdsbc.jpg', '2025-12-09 11:54:12', '2025-12-09 11:54:12'),
-(28, 12, '#ff0000', 'color_images/6qAxyhPQoPDUijvOacyK5ITWeEVX8t6mArYBviIb.jpg', '2025-12-09 11:54:12', '2025-12-09 11:54:12'),
-(29, 12, '#ffdfb3', 'color_images/X3XDJAP43s2ANHtfeXP0TAVlviavWPWLDWvOK1pL.jpg', '2025-12-09 11:54:13', '2025-12-09 11:54:13'),
-(30, 12, '#030f35', 'color_images/wQnDIYG3MtVbHn2M67sV6xIEmL7qkgvCX7Na4605.jpg', '2025-12-09 11:54:13', '2025-12-09 11:54:13'),
-(31, 12, '#1f036d', 'color_images/QvsVDYFZEavzOX6dOsFG43oohSKfvCDk5ogWjLYS.jpg', '2025-12-09 11:54:13', '2025-12-09 11:54:13');
+INSERT INTO `product_colors` (`id`, `product_id`, `color_name`, `color_code`, `color_image`, `created_at`, `updated_at`) VALUES
+(4, 3, 'red', '', 'color_images/B8Y2OzG3bMZI1p5yFJgyzwp80ohD41A1kB52x15E.png', '2025-11-20 13:37:59', '2025-11-20 13:37:59'),
+(5, 4, 'red', '', 'color_images/eTZtb1XLMhNNL9YEBvxoAURz1KpKAZ4cJQ47wsNn.jpg', '2025-11-20 13:52:18', '2025-11-20 13:52:18'),
+(6, 4, 'purple', '', 'color_images/mMysfdT8ORjnnRcdSSu4wTWJK38APiF2BhQvaTil.jpg', '2025-11-20 13:52:18', '2025-11-20 13:52:18'),
+(7, 5, 'red', '', 'color_images/2ovGz1YRDvfDcNDKBa2u8ZX441qEJIbL1BFzu2Wo.png', '2025-11-22 08:33:15', '2025-11-22 08:33:15'),
+(8, 6, 'red', '', 'color_images/QVriJcPt8M7XzTlR35y7qKGw0TeSy8YuqgLTGNAW.jpg', '2025-11-22 10:52:01', '2025-11-22 10:52:01'),
+(9, 6, 'black', '', 'color_images/2DJ1PdzrL15akLiO0l5aWaoIKPn1PrVObuTUytIl.jpg', '2025-11-22 10:52:01', '2025-11-22 10:52:01'),
+(10, 6, 'purple', '', 'color_images/fdyHM5zwrTJSPnf62w1dOXZlB3yGREKFn9Ws7jIb.jpg', '2025-11-22 10:52:01', '2025-11-22 10:52:01'),
+(15, 8, 'red', '', 'color_images/Uq2ibysPQBTtQAGGffVGiI2YkCKpZZbDp4Ld2lD7.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
+(16, 8, 'lime green', '', 'color_images/iDXz3tnl8NEt06qzSqwwx38iZqoVhcisZhMZIq90.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
+(17, 8, 'Navy', '', 'color_images/sbakiXhUBQfEplc7GMFnp09Nae5wJdB3Vtb7HGWl.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
+(18, 8, 'black', '', 'color_images/0DljyyxlEjd6rgS8HWGOJYfhJUVdTwJGH7xqD2wT.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
+(19, 8, 'light pink', '', 'color_images/yzKulnGLGKOvEid8StbXYEKMhCXvLFbSRocOqFTT.jpg', '2025-11-22 12:00:01', '2025-11-22 12:00:01'),
+(20, 8, '333', '', 'color_images/K9FwmYbeRGOazMAmJMXnqAEh3nPgVbhe8voLmqYS.jpg', '2025-11-23 08:48:58', '2025-11-23 08:48:58'),
+(21, 9, 'dsds', '', 'color_images/XXdEF0nUs0cTfFC7RIUBvziLHTZqNnwOxx4smoXt.jpg', '2025-11-23 09:59:59', '2025-11-23 09:59:59'),
+(22, 10, 'sasa', '', 'color_images/UEu80eLbIujQUdyirwb4Yg7TrPnN6IojVteZHfh1.jpg', '2025-11-23 11:16:42', '2025-11-23 11:16:42'),
+(23, 11, '#b11b1b', '', 'color_images/gCsZqtNzQ54t0BjOuVENJhN0I04L6mHTCLcUj0Ra.jpg', '2025-11-25 10:46:00', '2025-11-25 10:46:00'),
+(24, 11, '#0fc22d', '', 'color_images/QRHGT4KBe1LLxt49LB3Bu6bp5iC7iAPpVs7i5hOb.png', '2025-11-25 10:46:00', '2025-11-25 10:46:00'),
+(25, 11, '#dccb09', '', 'color_images/rLiczQ0IMPMcIaQNaxokxGLJ5EKMQwbzzNZ0g035.jpg', '2025-11-25 10:46:00', '2025-11-25 10:53:22'),
+(27, 12, '#000000', '', 'color_images/abpUkNXQhw9p4FS5LYC2AHEGq33YStXOfJRcdsbc.jpg', '2025-12-09 11:54:12', '2025-12-09 11:54:12'),
+(28, 12, '#ff0000', '', 'color_images/6qAxyhPQoPDUijvOacyK5ITWeEVX8t6mArYBviIb.jpg', '2025-12-09 11:54:12', '2025-12-09 11:54:12'),
+(29, 12, '#ffdfb3', '', 'color_images/X3XDJAP43s2ANHtfeXP0TAVlviavWPWLDWvOK1pL.jpg', '2025-12-09 11:54:13', '2025-12-09 11:54:13'),
+(30, 12, '#030f35', '', 'color_images/wQnDIYG3MtVbHn2M67sV6xIEmL7qkgvCX7Na4605.jpg', '2025-12-09 11:54:13', '2025-12-09 11:54:13'),
+(31, 12, '#1f036d', '', 'color_images/QvsVDYFZEavzOX6dOsFG43oohSKfvCDk5ogWjLYS.jpg', '2025-12-09 11:54:13', '2025-12-09 11:54:13'),
+(32, 13, '#000000', '', 'color_images/luA1CZyj1QgYPU6ya8S8X8o0K3KVmEefuyBbbsQX.png', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(33, 13, '#ff0a0a', '', 'color_images/pP0Q11Em6HfU6ohVYcJzzeh8pn1EeCXiq7h1DnxR.jpg', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(34, 14, '#000000', '', 'color_images/7CUhuL1vXm2WUpF0Pg2FaVTbsVx23kU5pD8VHHBJ.jpg', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(35, 14, '#990000', '', 'color_images/icUeadpXVPPxy2aiwfb8l3TRZGyfEhk8DLkRkUow.jpg', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(36, 14, '#222ba5', '', 'color_images/faedeGwbPoREhjV0tHGvuwCMCPwvaLriD5JwwtCX.jpg', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(37, 14, '#000000', '', 'color_images/0E2XodbssJMd2Ky9DFAd1BW3zjqfLkweY6aKeQpe.jpg', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(38, 14, '#67c7e9', '', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(39, 14, '#b28394', '', 'color_images/B3LMQwYk9nevlzkL6mUNHEhfte6aYGAUBpdipCwR.jpg', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(40, 14, '#fbff00', '', 'color_images/wmlXCc4BEK1DegWhA09D3iH5JxEIMyv5M9TyIqJX.jpg', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(41, 15, 'Black', '#000000', 'color_images/MiUANgcR50jQxQ3Zsk3ZP0sLUfZmDN4JPCFAaYaI.jpg', '2025-12-13 15:17:07', '2025-12-13 15:27:21'),
+(42, 15, 'Navy', '#100566', 'color_images/Skq6yGPmMiTAXzhmkE1gV9xNKmcwu9vTR6g3NVrJ.jpg', '2025-12-13 15:17:07', '2025-12-13 15:27:21'),
+(43, 15, 'Red', '#bd0000', 'color_images/gZRcseP88sXKK2F1zynMwlpXjbPjCwuIg6vhkTdg.jpg', '2025-12-13 15:17:07', '2025-12-13 15:27:21'),
+(44, 15, 'yellow', '#f9e876', 'color_images/iVRyaGFmMHGOP1OG1rTjCDIoH8ghy8I66fTyjkeE.jpg', '2025-12-13 15:17:37', '2025-12-13 15:17:37'),
+(45, 16, 'Black', '#000000', 'color_images/Ruhj7vizNRkkJ8jqbo688X7EvmcvuXEPPIQk62TR.jpg', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(46, 16, 'yellow', '#ffe11f', 'color_images/x5QjWnyDGCycky3vLgj5rqvJ9D38EK1Dn8PtoWpg.jpg', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(47, 16, 'Pink', '#f9dcdc', 'color_images/nB2YHm99PQDxdhCtqR0YZO6XfV0AZD5nrSmfX0Jx.jpg', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(48, 16, 'Navy', '#042a53', 'color_images/Um2RV2ps1Ks4LjWIQlBGGaNuJvlRQUauHdVKxc1p.jpg', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(49, 16, 'Royal', '#1c5797', 'color_images/neicWQMGOTLl5zd1z4ufBFYdwAdk1apBT7u2O0Zc.jpg', '2025-12-15 13:17:44', '2025-12-15 13:17:44');
 
 -- --------------------------------------------------------
 
@@ -279,7 +328,11 @@ INSERT INTO `product_images` (`id`, `product_id`, `image_path`, `created_at`, `u
 (9, 9, 'product_images/j6A7UbJKEpoa4jykjKGb5DWphS9qZalaDJEcamxu.png', '2025-11-23 09:59:59', '2025-11-23 09:59:59'),
 (10, 10, 'product_images/kg8WPBGYdBI9KJbNkZnQWTDp5Uu3I0Op14sPZ5An.png', '2025-11-23 11:16:42', '2025-11-23 11:16:42'),
 (11, 11, 'product_images/gjkkpoK8Sq0LUZsWnVKr02cG0VL0kjBgHAWIhyE0.png', '2025-11-25 10:46:00', '2025-11-25 10:46:00'),
-(12, 12, 'product_images/1SGbaGqdI2cfjREm6iYunRNraHlWZ91jiy3AjUlQ.jpg', '2025-12-09 11:54:13', '2025-12-09 11:54:13');
+(12, 12, 'product_images/1SGbaGqdI2cfjREm6iYunRNraHlWZ91jiy3AjUlQ.jpg', '2025-12-09 11:54:13', '2025-12-09 11:54:13'),
+(13, 13, 'product_images/wTg4qunvFjESRpOMnpNXoe0idqoevXxfLS10t1W3.jpg', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(14, 14, 'product_images/w4o1BzKG5O6eplp4JJiJBKJLXslnlJMOsUa3AE3x.jpg', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(15, 15, 'product_images/9m8s8ZY1Mijs96tI660O5BxJoEuvS0w1foySgbSv.jpg', '2025-12-13 15:17:07', '2025-12-13 15:17:07'),
+(16, 16, 'product_images/wpsPFERL8mJWVgFhnsltgCQWY62jjFLxFd2mYn8v.jpg', '2025-12-15 13:17:44', '2025-12-15 13:17:44');
 
 -- --------------------------------------------------------
 
@@ -361,7 +414,23 @@ INSERT INTO `product_tabs` (`id`, `product_id`, `title`, `section`, `created_at`
 (57, 12, 'BLANK', 'top', '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
 (58, 12, 'Additional Information', 'bottom', '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
 (59, 12, 'Additional Charges', 'bottom', '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
-(60, 12, 'Shipping Info', 'bottom', '2025-12-09 11:54:14', '2025-12-09 11:54:14');
+(60, 12, 'Shipping Info', 'bottom', '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
+(61, 13, 'SPOT PRINTING', 'top', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(62, 13, 'Blank', 'top', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(63, 13, 'Product Description', 'bottom', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(64, 13, 'Additional Information', 'bottom', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(65, 14, 'SPOT PRINTING', 'top', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(66, 14, 'HEAT TRANSFER', 'top', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(67, 14, 'Blank', 'top', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(68, 14, 'Additional Information', 'bottom', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(69, 14, 'Additional Charges', 'bottom', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(70, 14, 'Shipping Info', 'bottom', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(71, 15, 'SPOT PRINTING', 'top', '2025-12-13 15:17:07', '2025-12-13 15:17:07'),
+(72, 15, 'Product Description', 'bottom', '2025-12-13 15:17:07', '2025-12-13 15:17:07'),
+(73, 16, 'SPOT PRINTING', 'top', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(74, 16, 'Blank', 'top', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(75, 16, 'Product Description', 'bottom', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(76, 16, 'Additional Information', 'bottom', '2025-12-15 13:17:44', '2025-12-15 13:17:44');
 
 -- --------------------------------------------------------
 
@@ -589,7 +658,195 @@ INSERT INTO `product_tab_cells` (`id`, `row_id`, `column_name`, `value`, `create
 (443, 149, 0, '28.44 lbs', '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
 (444, 150, 0, '21.5\" x 16.5\" x 8\"', '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
 (445, 151, 0, 'Pakistan', '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
-(446, 152, 0, 'USA', '2025-12-09 11:54:14', '2025-12-09 11:54:14');
+(446, 152, 0, 'USA', '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
+(447, 126, 381, '72', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(448, 126, 382, '288', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(449, 126, 383, '500', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(450, 126, 384, '1000', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(451, 126, 385, '2000', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(452, 126, 386, '3000', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(453, 127, 387, '$6.45', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(454, 127, 388, '$5.65', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(455, 127, 389, '$5.31', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(456, 127, 390, '$5.15', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(457, 127, 391, '$4.96', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(458, 127, 392, '$4.85', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(459, 128, 393, '$7.74', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(460, 128, 394, '$6.90', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(461, 128, 395, '$6.56', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(462, 128, 396, '$6.40', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(463, 128, 397, '$6.21', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(464, 128, 398, '$6.10', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(465, 129, 399, '$1.81', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(466, 129, 400, '$1.31', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(467, 129, 401, '$1.06', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(468, 129, 402, '$0.94', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(469, 129, 403, '$0.81', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(470, 129, 404, '$0.71', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(471, 130, 405, '$0.50', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(472, 130, 406, '$0.38', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(473, 130, 407, '$0.35', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(474, 130, 408, '$0.30', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(475, 130, 409, '$0.25', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(476, 130, 410, '$0.20', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(477, 131, 411, '100', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(478, 131, 412, '250', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(479, 131, 413, '500', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(480, 131, 414, '1000', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(481, 131, 415, '2000', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(482, 131, 416, '3000', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(483, 132, 417, '$10.50', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(484, 132, 418, '$9.56', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(485, 132, 419, '$9.23', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(486, 132, 420, '$9.08', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(487, 132, 421, '$9.04', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(488, 132, 422, '$9.00', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(489, 133, 423, '$11.33', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(490, 133, 424, '$10.40', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(491, 133, 425, '$10.06', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(492, 133, 426, '$9.92', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(493, 133, 427, '$9.88', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(494, 133, 428, '$9.83', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(495, 134, 429, '$3.98', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(496, 135, 430, '$4.76', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(497, 136, 431, 'TB600', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(498, 137, 432, 'Canvas Jumbo Tote w/ Bottom Gusset', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(499, 138, 433, '12oz, Canvas, 100% Cotton, Jumbo tote with bottom gusset soft web handles. Reinforced at stress points.', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(500, 139, 434, 'Lime, Chocolate, Light Pink, Yellow, White, Dark Gray, Natural, Black, Navy, Red, Royal', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(501, 140, 435, '20\"W x 15\"H x 5\"D', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(502, 141, 436, '14\"W x 10\"H', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(503, 142, 437, '100% Cotton Canvas', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(504, 143, 438, 'Call for pricing', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(505, 144, 439, 'Call for pricing', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(506, 145, 440, '$ 75.00 (V) / Hour', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(507, 146, 441, '$ 25.00 (V)', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(508, 148, 442, '72 pcs', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(509, 149, 443, '28.44 lbs', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(510, 150, 444, '21.5\" x 16.5\" x 8\"', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(511, 151, 445, 'Pakistan', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(512, 152, 446, 'USA', '2025-12-11 10:58:38', '2025-12-11 10:58:38'),
+(513, 153, 0, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(514, 153, 1, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(515, 153, 2, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(516, 153, 3, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(517, 153, 4, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(518, 154, 0, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(519, 154, 1, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(520, 154, 2, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(521, 154, 3, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(522, 154, 4, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(523, 155, 0, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(524, 155, 1, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(525, 155, 2, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(526, 155, 3, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(527, 155, 4, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(528, 156, 0, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(529, 157, 0, '1', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(530, 158, 0, 'TB600', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(531, 159, 0, 'Canvas Jumbo Tote w/ Bottom Gusset', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(532, 160, 0, '12oz, Canvas, 100% Cotton, Jumbo tote with bottom gusset soft web handles. Reinforced at stress points.', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(533, 161, 0, 'wqw', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(534, 162, 0, 'Call for pricing', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(535, 163, 0, '12', '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(536, 164, 0, '10', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(537, 164, 1, '20', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(538, 164, 2, '30', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(539, 164, 3, '40', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(540, 165, 0, '$5', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(541, 165, 1, '$10', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(542, 165, 2, '$15', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(543, 165, 3, '$20', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(544, 166, 0, '$8', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(545, 166, 1, '$16', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(546, 166, 2, '$24', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(547, 166, 3, '$32', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(548, 167, 0, '100', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(549, 167, 1, '250', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(550, 167, 2, '500', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(551, 167, 3, '1000', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(552, 168, 0, '$4', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(553, 168, 1, '$8', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(554, 168, 2, '$12', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(555, 168, 3, '$16', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(556, 169, 0, '$3.98', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(557, 170, 0, '$4.76', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(558, 171, 0, 'TB600', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(559, 172, 0, 'Canvas Jumbo Tote w/ Bottom Gusset', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(560, 173, 0, '12oz, Canvas, 100% Cotton, Jumbo tote with bottom gusset soft web handles. Reinforced at stress points.', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(561, 174, 0, 'Lime, Chocolate, Light Pink, Yellow, White, Dark Gray, Natural, Black, Navy, Red, Royal', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(562, 175, 0, 'Call for pricin', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(563, 176, 0, 'Call for pricing', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(564, 177, 0, '$ 75.00 (V) / Hour', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(565, 178, 0, '72 pcs', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(566, 179, 0, '28.44 lbs', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(567, 180, 0, '21.5\" x 16.5\" x 8\"', '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(568, 164, 536, '10', '2025-12-13 13:36:50', '2025-12-13 13:36:50'),
+(569, 164, 537, '20', '2025-12-13 13:36:50', '2025-12-13 13:36:50'),
+(570, 164, 538, '30', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(571, 164, 539, '40', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(572, 165, 540, '$5', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(573, 165, 541, '$10', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(574, 165, 542, '$15', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(575, 165, 543, '$20', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(576, 166, 544, '$8', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(577, 166, 545, '$16', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(578, 166, 546, '$24', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(579, 166, 547, '$32', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(580, 167, 548, '100', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(581, 167, 549, '250', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(582, 167, 550, '500', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(583, 167, 551, '1000', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(584, 168, 552, '$4', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(585, 168, 553, '$8', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(586, 168, 554, '$12', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(587, 168, 555, '$16', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(588, 169, 556, '$3.98', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(589, 170, 557, '$4.76', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(590, 171, 558, 'TB600', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(591, 172, 559, 'Canvas Jumbo Tote w/ Bottom Gusset', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(592, 173, 560, '12oz, Canvas, 100% Cotton, Jumbo tote with bottom gusset soft web handles. Reinforced at stress points.', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(593, 174, 561, 'Lime, Chocolate, Light Pink, Yellow, White, Dark Gray, Natural, Black, Navy, Red, Royal', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(594, 175, 562, 'Call for pricin', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(595, 176, 563, 'Call for pricing', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(596, 177, 564, '$ 75.00 (V) / Hour', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(597, 178, 565, '72 pcs', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(598, 179, 566, '28.44 lbs', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(599, 180, 567, '21.5\" x 16.5\" x 8\"', '2025-12-13 13:36:51', '2025-12-13 13:36:51'),
+(600, 181, 0, '1', '2025-12-13 15:17:07', '2025-12-13 15:17:07'),
+(601, 181, 1, '1', '2025-12-13 15:17:07', '2025-12-13 15:17:07'),
+(602, 181, 600, '1', '2025-12-13 15:17:37', '2025-12-13 15:17:37'),
+(603, 181, 601, '1', '2025-12-13 15:17:37', '2025-12-13 15:17:37'),
+(604, 181, 602, '1', '2025-12-13 15:27:21', '2025-12-13 15:27:21'),
+(605, 181, 603, '1', '2025-12-13 15:27:21', '2025-12-13 15:27:21'),
+(606, 183, 0, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(607, 183, 1, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(608, 183, 2, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(609, 183, 3, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(610, 183, 4, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(611, 183, 5, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(612, 184, 0, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(613, 184, 1, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(614, 184, 2, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(615, 184, 3, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(616, 184, 4, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(617, 184, 5, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(618, 185, 0, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(619, 185, 1, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(620, 185, 2, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(621, 185, 3, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(622, 185, 4, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(623, 185, 5, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(624, 186, 0, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(625, 186, 1, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(626, 187, 0, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(627, 187, 1, '1', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(628, 188, 0, 'TB600', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(629, 189, 0, 'Canvas Jumbo Tote w/ Bottom Gusset', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(630, 190, 0, '12oz, Canvas, 100% Cotton, Jumbo tote with bottom gusset soft web handles. Reinforced at stress points.', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(631, 191, 0, 'Lime, Chocolate, Light Pink, Yellow, White, Dark Gray, Natural, Black, Navy, Red, Royal', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(632, 192, 0, '21', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(633, 193, 0, '10', '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(634, 194, 0, '20', '2025-12-15 13:17:44', '2025-12-15 13:17:44');
 
 -- --------------------------------------------------------
 
@@ -690,7 +947,49 @@ INSERT INTO `product_tab_rows` (`id`, `tab_id`, `label`, `value`, `created_at`, 
 (149, 60, 'Box Weight', NULL, '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
 (150, 60, 'Box Dimensions', NULL, '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
 (151, 60, 'Country of Origin', NULL, '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
-(152, 60, 'Decorated in', NULL, '2025-12-09 11:54:14', '2025-12-09 11:54:14');
+(152, 60, 'Decorated in', NULL, '2025-12-09 11:54:14', '2025-12-09 11:54:14'),
+(153, 61, 'Quantity', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(154, 61, 'Natural', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(155, 61, 'Color', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(156, 62, 'Natural', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(157, 62, 'color', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(158, 63, 'Item No.', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(159, 63, 'Item Name', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(160, 63, 'Description', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(161, 64, 'additional color', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(162, 64, 'Single Poly Bag', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(163, 64, 'location charges', NULL, '2025-12-13 12:21:37', '2025-12-13 12:21:37'),
+(164, 65, 'Quantity', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(165, 65, 'Natural', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(166, 65, 'Color', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(167, 66, 'Quantity', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(168, 66, 'Natural', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(169, 67, 'Natural :', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(170, 67, 'Colors :', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(171, 68, 'Item No.', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(172, 68, 'Item Name', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(173, 68, 'Description', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(174, 68, 'Available Colors', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(175, 69, 'Drop Ship Charge', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(176, 69, 'Single Poly Bag', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(177, 69, 'Artwork Charges', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(178, 70, 'Qty / Box', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(179, 70, 'Box Weight', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(180, 70, 'Box Dimensions', NULL, '2025-12-13 13:29:10', '2025-12-13 13:29:10'),
+(181, 71, 'Quantity', NULL, '2025-12-13 15:17:07', '2025-12-13 15:17:07'),
+(182, 72, 'wqqw', NULL, '2025-12-13 15:17:07', '2025-12-13 15:17:07'),
+(183, 73, 'Quantity', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(184, 73, 'Natural', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(185, 73, 'Color', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(186, 74, 'Natural', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(187, 74, 'Colors', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(188, 75, 'Item No.', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(189, 75, 'Material', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(190, 75, 'Description', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(191, 75, 'Item Name', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(192, 76, 'Drop Ship Charge', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(193, 76, 'Single Poly Bag', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44'),
+(194, 76, 'Artwork Charges', NULL, '2025-12-15 13:17:44', '2025-12-15 13:17:44');
 
 -- --------------------------------------------------------
 
@@ -734,12 +1033,8 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('AlSagM582t1METatoVANMNyB3WTRYEnLI7D7s0mY', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSVNuRmpmRGFiV1FlR1hvZW5ncWJLelNZOG9MdFBXUGxCa0RXMFFLQSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzc6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0cy9jcmVhdGUiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1764173539),
-('CkMyUilRgei7Evjwrd1HexDCiJnX4j5szgnSEAX0', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiRDI3TWZXSXA1MjJFVk94bW42eEJHcGJiWVR1VjVsM04zRFdVNklmZCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1765387008),
-('GGGL9Le1CURFwjVq40QV4ZJnwADXG0sjPSzRFOeG', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiUzluV1RGbmx0ckR6QzdBR1lLVUZMbnJUcTdCTU80eVNRRXlIM0JrbiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzg6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0L3F1b3RlLzEyIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czozOiJ1cmwiO2E6MDp7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1765299657),
-('LBOW99Z2tQSMpeNr89w64iqRhbZXXanTfYIxEgFw', NULL, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Mobile Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaHZmaDN3SGY4WFA1YnNXRnVHeFdpd3VXMm03aFlLQVdVcEVKME1BZCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1765312890),
-('ThA5hSVSBsaI7MAAlG8sGipuBUEwBWbyg61M7MVK', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiNFhHMHdjcHZZcEJMaFlUTk0yV3BLNHVGN0RYQmNJd2VoZGV5UUFOMiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kZXRhaWwvNiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1765219805),
-('v8CXTYPf9GZSXIf4TJ22Brcpo7aCVDMKxAD6Lkfy', 1, '127.0.0.1', 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Mobile Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiaXBCcTFFc3VDbzFuUDlkbVEwaFpwUUNwQ05ud1V1WUkxOTdsdENRdyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kZXRhaWwvNiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1765211216);
+('hJNYlleTZjcfwBLOcJke1uTaE5yt9yHTJAnHBbrS', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiMFFNQ3hGU215Tm9rbnY1WjBjTmFUdXdITE96ZUxPMnA0V21PUzFoMyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9wcm9kdWN0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6MzoidXJsIjthOjA6e31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1765805082),
+('U7FDPUwVzpa44QEr0aNZpO2iJEs4J1dzmrUiL2Xy', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoibDdRaUZidEh3Y3JvMEFtZDhuVFNZeGE3TVllMHVnRUR6WkRZQWIxTiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9kZXRhaWwvMTYiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjM6InVybCI7YTowOnt9czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1765823267);
 
 -- --------------------------------------------------------
 
@@ -789,6 +1084,12 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `categories_slug_unique` (`slug`),
   ADD KEY `categories_parent_id_foreign` (`parent_id`);
+
+--
+-- Indexes for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -905,6 +1206,12 @@ ALTER TABLE `categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
+-- AUTO_INCREMENT for table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -920,25 +1227,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `product_colors`
 --
 ALTER TABLE `product_colors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT for table `product_images`
 --
 ALTER TABLE `product_images`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `product_prices`
@@ -950,19 +1257,19 @@ ALTER TABLE `product_prices`
 -- AUTO_INCREMENT for table `product_tabs`
 --
 ALTER TABLE `product_tabs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `product_tab_cells`
 --
 ALTER TABLE `product_tab_cells`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=447;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=635;
 
 --
 -- AUTO_INCREMENT for table `product_tab_rows`
 --
 ALTER TABLE `product_tab_rows`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT for table `roles`
