@@ -13,14 +13,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ProductTabCell;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-
-
-function cleanFileName($name)
-{
-    return Str::slug($name, '_');
-}
 class ProductController extends Controller
 {
     public function index()
@@ -34,7 +26,6 @@ class ProductController extends Controller
         $categories = Category::all();
         return view('dashboard.pages.products.create', compact('categories'));
     }
-
 
     public function store(Request $request)
     {
@@ -65,22 +56,9 @@ class ProductController extends Controller
                     // Color Image
                     $colorImage = null;
                     if ($request->color_images[$index] ?? false) {
-
-                        $image = $request->color_images[$index];
-
-                        $extension = $image->getClientOriginalExtension();
-
-                        $colorName = cleanFileName($request->color_names[$index] ?? 'color');
-
-                        $fileName = $product->item_number . '_' . $colorName . '.' . $extension;
-
-                        $colorImage = $image->storeAs(
-                            'color_images',
-                            $fileName,
-                            'public'
-                        );
+                        $colorImage = $request->color_images[$index]
+                            ->store('color_images', 'public');
                     }
-
 
                     // Color Template PDF
                     $colorTemplate = null;
@@ -102,24 +80,13 @@ class ProductController extends Controller
 
             // ✔ Save product images
             if ($request->product_images) {
-                foreach ($request->product_images as $index => $image) {
-
-                    $extension = $image->getClientOriginalExtension();
-
-                    $fileName = 'thmImage_' . $product->item_number . '_' . ($index + 1) . '.' . $extension;
-
-                    $path = $image->storeAs(
-                        'product_images',
-                        $fileName,
-                        'public'
-                    );
-
+                foreach ($request->product_images as $image) {
+                    $path = $image->store('product_images', 'public');
                     ProductImage::create([
                         'product_id' => $product->id,
                         'image_path' => $path
                     ]);
                 }
-
             }
 
             // ✔ Save tabs and rows
@@ -216,12 +183,8 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
 
-
         try {
             $product = Product::findOrFail($id);
-
-            // Log the entire request for debugging
-            Log::info('Update Product Request Data', $request->all());
 
             // Update product basic info
             $data = $request->only([
@@ -237,7 +200,6 @@ class ProductController extends Controller
             // Add BW template if uploaded
             if ($request->hasFile('bw_template_pdf')) {
                 $data['bw_template_pdf'] = $request->file('bw_template_pdf')->store('bw_templates', 'public');
-                Log::info('BW Template uploaded', ['path' => $data['bw_template_pdf']]);
             }
 
             // Update existing Color Templates
@@ -247,7 +209,6 @@ class ProductController extends Controller
                     if ($color && $file) {
                         $color->color_template_pdf = $file->store('color_templates', 'public');
                         $color->save();
-                        Log::info("Updated existing color template", ['color_id' => $colorId, 'file' => $color->color_template_pdf]);
                     }
                 }
             }
@@ -265,87 +226,55 @@ class ProductController extends Controller
                     $color->color_code = $colorCode;
 
                     if ($request->old_color_images[$colorId] ?? false) {
-
-                        $image = $request->old_color_images[$colorId];
-                        $extension = $image->getClientOriginalExtension();
-
-                        $colorName = cleanFileName($color->color_name ?? 'color');
-
-                        $fileName = $product->item_number . '_' . $colorName . '.' . $extension;
-
-                        $color->color_image = $image->storeAs(
-                            'color_images',
-                            $fileName,
-                            'public'
-                        );
+                        $color->color_image = $request->old_color_images[$colorId]
+                            ->store('color_images', 'public');
                     }
 
-
                     $color->save();
-                    Log::info("Updated old color", ['color_id' => $colorId, 'name' => $color->color_name, 'code' => $colorCode]);
                 }
             }
+
 
             // --------------------------
             // ADD NEW COLORS
             // --------------------------
             if ($request->colors) {
                 foreach ($request->colors as $index => $colorCode) {
-                    $colorImage = $request->color_images[$index] ?? null;
-                    $colorTemplate = $request->color_templates[$index] ?? null;
 
-                    if ($colorImage) {
-
-                        $extension = $colorImage->getClientOriginalExtension();
-
-                        $colorName = Str::slug($request->color_names[$index] ?? 'color', '_');
-
-                        $fileName = $product->item_number . '_' . $colorName . '.' . $extension;
-
-                        $colorImage = $colorImage->storeAs(
-                            'color_images',
-                            $fileName,
-                            'public'
-                        );
+                    // Color Image
+                    $colorImage = null;
+                    if ($request->color_images[$index] ?? false) {
+                        $colorImage = $request->color_images[$index]->store('color_images', 'public');
                     }
-                    if ($colorTemplate)
-                        $colorTemplate = $colorTemplate->store('color_templates', 'public');
 
-                    $createdColor = ProductColor::create([
+                    // Color Template PDF
+                    $colorTemplate = null;
+                    if ($request->color_templates[$index] ?? false) {
+                        $colorTemplate = $request->color_templates[$index]->store('color_templates', 'public');
+                    }
+
+                    ProductColor::create([
                         'product_id' => $product->id,
                         'color_name' => $request->color_names[$index] ?? null,
                         'color_code' => $colorCode,
                         'color_image' => $colorImage,
-                        'color_template_pdf' => $colorTemplate,
+                        'color_template_pdf' => $colorTemplate, // ← new field
                     ]);
-
-                    Log::info("Created new color", ['color_id' => $createdColor->id, 'name' => $createdColor->color_name]);
                 }
             }
+
 
             // --------------------------
             // ADD NEW IMAGES
             // --------------------------
             if ($request->product_images) {
-                foreach ($request->product_images as $index => $image) {
-
-                    $extension = $image->getClientOriginalExtension();
-
-                    $fileName = 'thmImage_' . $product->item_number . '_' . time() . '_' . ($index + 1) . '.' . $extension;
-
-                    $path = $image->storeAs(
-                        'product_images',
-                        $fileName,
-                        'public'
-                    );
-
+                foreach ($request->product_images as $image) {
+                    $path = $image->store('product_images', 'public');
                     ProductImage::create([
                         'product_id' => $product->id,
                         'image_path' => $path
                     ]);
                 }
-
-
             }
 
             // --------------------------
@@ -359,8 +288,8 @@ class ProductController extends Controller
 
                     $tab->title = $title;
                     $tab->save();
-                    Log::info("Updated top tab title", ['tab_id' => $tabId, 'title' => $title]);
 
+                    // Update existing rows
                     foreach ($request->old_top_tab_rows[$tabId] ?? [] as $rowId => $rowData) {
                         $row = ProductTabRow::find($rowId);
                         if (!$row)
@@ -368,43 +297,28 @@ class ProductController extends Controller
 
                         $row->label = $rowData['label'] ?? '';
                         $row->save();
-                        Log::info("Updated top tab row label", ['tab_id' => $tabId, 'row_id' => $rowId, 'label' => $row->label]);
 
-                        // Existing cells
-                        $oldCells = $request->old_top_tab_cells[$tabId][$rowId] ?? [];
-                        Log::info("Top Tab [$tabId] Row [$rowId] old cells data", $oldCells);
-
-                        foreach ($oldCells as $cellId => $value) {
+                        // Update existing cells + create new columns
+                        // Update existing cells + create new columns
+                        // For existing cells
+                        foreach ($request->old_top_tab_cells[$tabId][$rowId] ?? [] as $cellId => $value) {
                             $cell = ProductTabCell::find($cellId);
                             if ($cell) {
                                 $cell->value = $value;
                                 $cell->save();
-                                Log::info("Updated existing cell", ['cell_id' => $cellId, 'value' => $value]);
-                            } else {
-                                // Create a new cell if ID not found
-                                $maxColumn = ProductTabCell::where('row_id', $rowId)->max('column_name') ?? -1;
-                                $newCell = ProductTabCell::create([
-                                    'row_id' => $rowId,
-                                    'column_name' => $maxColumn + 1,
-                                    'value' => $value
-                                ]);
-                                Log::info("Created missing cell for old_top_tab_cells", ['cell_id' => $newCell->id, 'value' => $value]);
                             }
                         }
 
-
-                        // New columns
-                        $newCells = $request->new_top_tab_cells[$tabId][$rowId] ?? [];
-                        Log::info("Top Tab [$tabId] Row [$rowId] new cells data", $newCells);
-                        foreach ($newCells as $value) {
+                        // For new columns
+                        foreach ($request->new_top_tab_cells[$tabId][$rowId] ?? [] as $value) {
                             $maxColumn = $row->cells()->max('column_name') ?? -1;
-                            $createdCell = ProductTabCell::create([
+                            ProductTabCell::create([
                                 'row_id' => $row->id,
                                 'column_name' => $maxColumn + 1,
                                 'value' => $value
                             ]);
-                            Log::info("Created new cell", ['cell_id' => $createdCell->id, 'value' => $value]);
                         }
+
                     }
 
                     // Add new rows in existing tab
@@ -414,15 +328,13 @@ class ProductController extends Controller
                             'label' => $rowData['label'] ?? '',
                             'value' => null
                         ]);
-                        Log::info("Created new row in top tab", ['tab_id' => $tabId, 'row_id' => $newRow->id]);
 
                         foreach ($rowData['cells'] ?? [] as $colIndex => $cellValue) {
-                            $createdCell = ProductTabCell::create([
+                            ProductTabCell::create([
                                 'row_id' => $newRow->id,
                                 'column_name' => $colIndex,
                                 'value' => $cellValue
                             ]);
-                            Log::info("Created new cell in new row", ['cell_id' => $createdCell->id, 'value' => $cellValue]);
                         }
                     }
                 }
@@ -439,8 +351,8 @@ class ProductController extends Controller
 
                     $tab->title = $title;
                     $tab->save();
-                    Log::info("Updated bottom tab title", ['tab_id' => $tabId, 'title' => $title]);
 
+                    // Update existing rows
                     foreach ($request->old_bottom_tab_rows[$tabId] ?? [] as $rowId => $rowData) {
                         $row = ProductTabRow::find($rowId);
                         if (!$row)
@@ -448,41 +360,39 @@ class ProductController extends Controller
 
                         $row->label = $rowData['label'] ?? '';
                         $row->save();
-                        Log::info("Updated bottom tab row label", ['tab_id' => $tabId, 'row_id' => $rowId, 'label' => $row->label]);
 
-                        // Existing cells + new columns
+                        // Update existing cells + create new columns
                         foreach ($request->old_bottom_tab_cells[$tabId][$rowId] ?? [] as $colIndex => $value) {
-                            $cell = ProductTabCell::where('row_id', $row->id)->where('column_name', $colIndex)->first();
+                            $cell = ProductTabCell::where('row_id', $row->id)
+                                ->where('column_name', $colIndex)
+                                ->first();
                             if ($cell) {
                                 $cell->value = $value;
                                 $cell->save();
-                                Log::info("Updated bottom cell", ['cell_id' => $cell->id, 'value' => $value]);
                             } else {
-                                $createdCell = ProductTabCell::create([
+                                ProductTabCell::create([
                                     'row_id' => $row->id,
                                     'column_name' => $colIndex,
                                     'value' => $value
                                 ]);
-                                Log::info("Created new bottom cell", ['cell_id' => $createdCell->id, 'value' => $value]);
                             }
                         }
                     }
 
+                    // Add new rows in existing bottom tab
                     foreach ($request->new_bottom_tab_rows[$tabId] ?? [] as $rowIndex => $rowData) {
                         $newRow = ProductTabRow::create([
                             'tab_id' => $tab->id,
                             'label' => $rowData['label'] ?? '',
                             'value' => null
                         ]);
-                        Log::info("Created new row in bottom tab", ['tab_id' => $tabId, 'row_id' => $newRow->id]);
 
                         foreach ($rowData['cells'] ?? [] as $colIndex => $cellValue) {
-                            $createdCell = ProductTabCell::create([
+                            ProductTabCell::create([
                                 'row_id' => $newRow->id,
                                 'column_name' => $colIndex,
                                 'value' => $cellValue
                             ]);
-                            Log::info("Created new cell in new bottom row", ['cell_id' => $createdCell->id, 'value' => $cellValue]);
                         }
                     }
                 }
@@ -491,14 +401,14 @@ class ProductController extends Controller
             // --------------------------
             // ADD NEW TOP TABS
             // --------------------------
+            // ADD NEW TOP TABS
             if ($request->top_tabs) {
                 foreach ($request->top_tabs as $tabIndex => $tabData) {
                     $tab = ProductTab::create([
                         'product_id' => $product->id,
-                        'title' => $tabData['title'] ?? '',
+                        'title' => $tabData['title'] ?? '', // <- Use the 'title' key
                         'section' => 'top'
                     ]);
-                    Log::info("Created new top tab", ['tab_id' => $tab->id]);
 
                     foreach ($tabData['rows'] ?? [] as $rowIndex => $rowData) {
                         $row = ProductTabRow::create([
@@ -506,23 +416,19 @@ class ProductController extends Controller
                             'label' => $rowData['label'] ?? '',
                             'value' => null
                         ]);
-                        Log::info("Created new row in new top tab", ['row_id' => $row->id]);
 
                         foreach ($rowData['cells'] ?? [] as $colIndex => $cellValue) {
-                            $createdCell = ProductTabCell::create([
+                            ProductTabCell::create([
                                 'row_id' => $row->id,
                                 'column_name' => $colIndex,
                                 'value' => $cellValue
                             ]);
-                            Log::info("Created new cell in new top tab row", ['cell_id' => $createdCell->id, 'value' => $cellValue]);
                         }
                     }
                 }
             }
 
-            // --------------------------
             // ADD NEW BOTTOM TABS
-            // --------------------------
             if ($request->bottom_tabs) {
                 foreach ($request->bottom_tabs as $tabIndex => $tabData) {
                     $tab = ProductTab::create([
@@ -530,7 +436,6 @@ class ProductController extends Controller
                         'title' => $tabData['title'] ?? '',
                         'section' => 'bottom'
                     ]);
-                    Log::info("Created new bottom tab", ['tab_id' => $tab->id]);
 
                     foreach ($tabData['rows'] ?? [] as $rowIndex => $rowData) {
                         $row = ProductTabRow::create([
@@ -538,29 +443,26 @@ class ProductController extends Controller
                             'label' => $rowData['label'] ?? '',
                             'value' => null
                         ]);
-                        Log::info("Created new row in new bottom tab", ['row_id' => $row->id]);
 
                         foreach ($rowData['cells'] ?? [] as $colIndex => $cellValue) {
-                            $createdCell = ProductTabCell::create([
+                            ProductTabCell::create([
                                 'row_id' => $row->id,
                                 'column_name' => $colIndex,
                                 'value' => $cellValue
                             ]);
-                            Log::info("Created new cell in new bottom tab row", ['cell_id' => $createdCell->id, 'value' => $cellValue]);
                         }
                     }
                 }
             }
 
+
             DB::commit();
             return redirect()->route('products.index')->with('success', 'Product updated successfully');
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error("Error updating product: " . $e->getMessage(), ['trace' => $e->getTraceAsString()]);
             return back()->with('error', $e->getMessage());
         }
     }
-
     public function deleteColor($id)
     {
         $color = ProductColor::findOrFail($id);

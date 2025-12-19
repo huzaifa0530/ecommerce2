@@ -10,29 +10,42 @@ class Product extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id', 'name', 'item_number', 'description',
-        'material', 'item_size', 'imprint_area', 'other_specs',
-         'is_special_offer', 'is_popular',
-    'special_price_before', 'special_price_after',
+        'category_id',
+        'name',
+        'item_number',
+        'description',
+        'material',
+        'item_size',
+        'imprint_area',
+        'other_specs',
+        'is_special_offer',
+        'is_popular',
+        'special_price_before',
+        'special_price_after',
+        'bw_template_pdf'
     ];
 
     protected $casts = [
         'other_specs' => 'array'
     ];
 
-    public function category() {
+    public function category()
+    {
         return $this->belongsTo(Category::class);
     }
 
-    public function images() {
+    public function images()
+    {
         return $this->hasMany(ProductImage::class);
     }
 
-    public function colors() {
+    public function colors()
+    {
         return $this->hasMany(ProductColor::class);
     }
 
-    public function tabs() {
+    public function tabs()
+    {
         return $this->hasMany(ProductTab::class);
     }
 

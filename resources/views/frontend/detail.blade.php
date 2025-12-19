@@ -256,11 +256,11 @@
                                         data-image="{{ asset('storage/' . $color->color_image) }}"
                                         title="{{ $color->color_name }}"
                                         style="display:inline-block;
-                                                                                                                                                                                                                  width:26px;
-                                                                                                                                                                                                                  height:26px;
-                                                                                                                                                                                                                  background: {{ $color->color_code  }};
-                                                                                                                                                                                                                  border:2px solid #e5e7eb;
-                                                                                                                                                     box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);">
+                                                                                                                                                                                                                                  width:26px;
+                                                                                                                                                                                                                                  height:26px;
+                                                                                                                                                                                                                                  background: {{ $color->color_code  }};
+                                                                                                                                                                                                                                  border:2px solid #e5e7eb;
+                                                                                                                                                                     box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);">
                                     </a>
 
                                 </li>
@@ -388,7 +388,7 @@
                                     <a href="#" class="d-block position-relative rounded-2 overflow-hidden quotationBtn"
                                         data-bs-toggle="modal" data-bs-target="#quotationModal" data-modal-title="Quotation"
                                         style="height:150px;
-                  background:url('{{ asset('User/img/quote.jpeg') }}') center/cover no-repeat;">
+                          background:url('{{ asset('User/img/quote.jpeg') }}') center/cover no-repeat;">
                                         <span class="position-absolute top-0 start-0 m-3 text-white fw-bold"
                                             style="text-shadow:0 1px 2px rgba(0,0,0,.5);">
                                             Request Quotation
@@ -400,7 +400,7 @@
                                     <a href="#" class="d-block position-relative rounded-2 overflow-hidden mockupBtn"
                                         data-bs-toggle="modal" data-bs-target="#quotationModal"
                                         data-modal-title="Request Mockup" style="height:150px;
-                  background:url('{{ asset('User/img/mockup.jpeg') }}') center/cover no-repeat;">
+                          background:url('{{ asset('User/img/mockup.jpeg') }}') center/cover no-repeat;">
                                         <span class="position-absolute top-0 start-0 m-3 text-white fw-bold"
                                             style="text-shadow:0 1px 2px rgba(0,0,0,.5);">
                                             Request Mockup
@@ -862,6 +862,21 @@
 
                     <form action="{{ route('freight.submit') }}" method="POST">
                         @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <!-- use the actual product ID -->
+                        <!-- User Email -->
+                        <div class="mb-3">
+                            <label class="form-label">
+                                <span class="text-danger">*</span> Your Email
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="bi bi-envelope"></i>
+                                </span>
+                                <input type="email" class="form-control" name="user_email" placeholder="Enter your email"
+                                    required>
+                            </div>
+                        </div>
 
                         <!-- Quantity -->
                         <div class="mb-3">

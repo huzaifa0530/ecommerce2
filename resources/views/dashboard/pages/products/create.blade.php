@@ -100,23 +100,33 @@
                                         <textarea name="description"
                                             class="form-control">{{ old('description') }}</textarea>
                                     </div>
-
                                     <!-- Colors -->
                                     <div class="col-md-12 mb-3">
                                         <label>Colors</label>
                                         <div id="colors-wrapper">
                                             <div class="color-row mb-2 d-flex gap-2">
+
                                                 <input type="text" name="color_names[]" class="form-control"
                                                     placeholder="Color Name (Black)">
 
                                                 <input type="color" name="colors[]" class="form-control color-picker">
 
                                                 <input type="file" name="color_images[]" class="form-control">
+                                                <input type="file" name="color_templates[]" class="form-control"
+                                                    accept="application/pdf">
                                             </div>
 
                                         </div>
                                         <button type="button" id="add-color" class="btn btn-sm btn-secondary mt-2">Add More
                                             Color</button>
+                                    </div>
+                                    <!-- Black & White Template -->
+                                 
+
+                                    <div class="col-md-12 mb-3">
+                                        <label>Black & White Template (PDF)</label>
+                                        <input type="file" name="bw_template_pdf" class="form-control"
+                                            accept="application/pdf">
                                     </div>
 
                                     <!-- Product Images -->
@@ -173,10 +183,12 @@
             div.classList.add('color-row', 'mb-2', 'd-flex', 'gap-2');
 
             div.innerHTML = `
-                <input type="text" name="color_names[]" class="form-control" placeholder="Color Name">
-                <input type="color" name="colors[]" class="form-control color-picker">
-                <input type="file" name="color_images[]" class="form-control">
-            `;
+            <input type="text" name="color_names[]" class="form-control" placeholder="Color Name">
+            <input type="color" name="colors[]" class="form-control color-picker">
+            <input type="file" name="color_images[]" class="form-control">
+            <input type="file" name="color_templates[]" class="form-control" accept="application/pdf">
+        `;
+
 
             wrapper.appendChild(div);
         });
@@ -188,10 +200,10 @@
             let div = document.createElement('div');
             div.classList.add('tab-row', 'mb-2');
             div.innerHTML = `
-                            <input type="text" name="top_tabs[]" placeholder="Tab Title" class="form-control mb-1">
-                            <div class="tab-rows-inner" id="top-tab-${topTabIndex}-rows"></div>
-                            <button type="button" onclick="addTopRow(${topTabIndex})" class="btn btn-sm btn-secondary mt-1">Add Row</button>
-                        `;
+                                        <input type="text" name="top_tabs[]" placeholder="Tab Title" class="form-control mb-1">
+                                        <div class="tab-rows-inner" id="top-tab-${topTabIndex}-rows"></div>
+                                        <button type="button" onclick="addTopRow(${topTabIndex})" class="btn btn-sm btn-secondary mt-1">Add Row</button>
+                                    `;
             wrapper.appendChild(div);
             topTabIndex++;
         });
@@ -202,10 +214,10 @@
             let div = document.createElement('div');
             div.classList.add('row', 'mb-1');
             div.innerHTML = `
-                            <div class="col"><input type="text" name="top_tab_rows[${tabIndex}][${rowIndex}][label]" placeholder="Label" class="form-control"></div>
-                            <div class="columns-wrapper d-flex gap-2"></div>
-                            <button type="button" onclick="addTopColumn(${tabIndex},${rowIndex})" class="btn btn-sm btn-secondary">Add Column</button>
-                        `;
+                                        <div class="col"><input type="text" name="top_tab_rows[${tabIndex}][${rowIndex}][label]" placeholder="Label" class="form-control"></div>
+                                        <div class="columns-wrapper d-flex gap-2"></div>
+                                        <button type="button" onclick="addTopColumn(${tabIndex},${rowIndex})" class="btn btn-sm btn-secondary">Add Column</button>
+                                    `;
             container.appendChild(div);
         }
 
@@ -227,10 +239,10 @@
             let div = document.createElement('div');
             div.classList.add('tab-row', 'mb-2');
             div.innerHTML = `
-                            <input type="text" name="bottom_tabs[]" placeholder="Tab Title" class="form-control mb-1">
-                            <div class="tab-rows-inner" id="bottom-tab-${bottomTabIndex}-rows"></div>
-                            <button type="button" onclick="addBottomRow(${bottomTabIndex})" class="btn btn-sm btn-secondary mt-1">Add Row</button>
-                        `;
+                                        <input type="text" name="bottom_tabs[]" placeholder="Tab Title" class="form-control mb-1">
+                                        <div class="tab-rows-inner" id="bottom-tab-${bottomTabIndex}-rows"></div>
+                                        <button type="button" onclick="addBottomRow(${bottomTabIndex})" class="btn btn-sm btn-secondary mt-1">Add Row</button>
+                                    `;
             wrapper.appendChild(div);
             bottomTabIndex++;
         });
@@ -241,10 +253,10 @@
             let div = document.createElement('div');
             div.classList.add('row', 'mb-1');
             div.innerHTML = `
-                            <div class="col"><input type="text" name="bottom_tab_rows[${tabIndex}][${rowIndex}][label]" placeholder="Label" class="form-control"></div>
-                            <div class="columns-wrapper d-flex gap-2"></div>
-                            <button type="button" onclick="addBottomColumn(${tabIndex},${rowIndex})" class="btn btn-sm btn-secondary">Add Column</button>
-                        `;
+                                        <div class="col"><input type="text" name="bottom_tab_rows[${tabIndex}][${rowIndex}][label]" placeholder="Label" class="form-control"></div>
+                                        <div class="columns-wrapper d-flex gap-2"></div>
+                                        <button type="button" onclick="addBottomColumn(${tabIndex},${rowIndex})" class="btn btn-sm btn-secondary">Add Column</button>
+                                    `;
             container.appendChild(div);
         }
 

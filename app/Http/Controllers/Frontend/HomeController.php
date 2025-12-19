@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\DB;
 use ZipArchive;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\FreightEstimateMail;
+use Illuminate\Support\Facades\Log;
 class HomeController extends Controller
 {
 
@@ -182,22 +184,68 @@ class HomeController extends Controller
 
         return response()->download($filePath);
     }
+
     public function submitEstimate(Request $request)
     {
+        Log::info('submitEstimate endpoint hit', ['all' => $request->all()]);
+
         $data = $request->validate([
             'quantity' => 'required|integer',
             'country' => 'required|string',
             'state' => 'required|string',
             'zip' => 'required|string',
             'residential' => 'nullable|string',
+            'product_id' => 'required|integer',
+            'user_email' => 'required|email',
         ]);
 
+
         try {
-            Mail::to('mhuzaifa05302@gmail.com')->send(new \App\Mail\FreightEstimateMail($data));
+            Log::info('submitEstimate called', $data);
+
+            // Fetch product with images
+            $product = Product::with('images')->find($data['product_id']);
+
+            if (!$product) {
+                Log::error('Product not found', ['product_id' => $data['product_id']]);
+                return back()->with('error', 'Product not found.');
+            }
+
+            // Add item number
+            $data['item_number'] = $product->item_number ?? 'N/A';
+            $data['user_email'];
+            // ✅ Add item name
+            $data['item_name'] = $product->name ?? 'N/A';
+
+            if (!$product->item_number) {
+                Log::warning('Product item_number is null', ['product_id' => $product->id]);
+            }
+
+            // Get first product image
+            $thumbnailPath = $product->images->first()?->image_path;
+
+            if (!$thumbnailPath) {
+                Log::warning('Thumbnail path is null', ['product_id' => $product->id]);
+            }
+
+            Log::info('Sending freight email', [
+                'product_id' => $product->id,
+                'item_number' => $data['item_number'],
+                'thumbnailPath' => $thumbnailPath,
+            ]);
+
+            Mail::to('mhuzaifa05302@gmail.com')
+                ->send(new FreightEstimateMail($data, $thumbnailPath));
+
+            Log::info('Freight email sent successfully');
 
             return back()->with('success', 'Freight estimate request sent successfully!');
         } catch (\Exception $e) {
-            \Log::error('Freight email failed: ' . $e->getMessage());
+            Log::error('Freight email failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             return back()->with('error', 'Failed to send email.');
         }
     }
