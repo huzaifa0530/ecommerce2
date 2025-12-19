@@ -249,4 +249,68 @@ class HomeController extends Controller
             return back()->with('error', 'Failed to send email.');
         }
     }
+
+    public function downloadSingleTemplate($colorId)
+    {
+        $color = ProductColor::findOrFail($colorId);
+
+        if (!$color->color_template_pdf) {
+            abort(404, 'Template not found');
+        }
+
+        $filePath = storage_path('app/public/' . $color->color_template_pdf);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        return response()->download($filePath);
+    }
+    public function downloadAllTemplates($productId)
+    {
+        $product = Product::with('colors')->findOrFail($productId);
+
+        $zip = new \ZipArchive;
+        $zipName = 'product-' . $product->id . '-color-templates.zip';
+        $zipPath = storage_path('app/public/' . $zipName);
+
+        if ($zip->open($zipPath, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
+
+            foreach ($product->colors as $color) {
+                if (!$color->color_template_pdf)
+                    continue;
+
+                $filePath = storage_path('app/public/' . $color->color_template_pdf);
+
+                if (file_exists($filePath)) {
+                    $zip->addFile(
+                        $filePath,
+                        $color->color_name . '.pdf'
+                    );
+                }
+            }
+
+            $zip->close();
+        }
+
+        return response()->download($zipPath)->deleteFileAfterSend(true);
+    }
+    public function downloadBwTemplate($productId)
+    {
+        $product = Product::findOrFail($productId);
+
+        if (!$product->bw_template_pdf) {
+            abort(404, 'Black & White template not found');
+        }
+
+        $filePath = storage_path('app/public/' . $product->bw_template_pdf);
+
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        return response()->download($filePath);
+    }
+
+
 }

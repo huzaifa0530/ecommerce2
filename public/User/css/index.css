@@ -480,3 +480,21 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
         justify-content: center;
       }
     }
+
+.bulb-text {
+  animation: fadeBulb 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes fadeBulb {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.text_color{
+    color: #252062;
+}
+

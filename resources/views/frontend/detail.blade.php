@@ -163,7 +163,7 @@
         }
 
         .thumb-img:hover {
-            border-color: #ffc107;
+            border-color: #be0e32;
             transform: scale(1.05);
         }
     </style>
@@ -172,7 +172,7 @@
         <div class="container-xl">
             <div class="row center_o1 text-center">
                 <div class="col-md-12">
-                    <h1>PRODUCT DETAIL</h1>
+                    <h1>{{ $product->name }}</h1>
                     <h6 class="d-inline-block bg-white font_14 col_yell"><a class="col_light" href="#">Home</a> <span
                             class="me-2 ms-2">/</span> Product Detail</h6>
                 </div>
@@ -245,22 +245,22 @@
                     </div>
 
                     <div class="mt-5 mb-3">
-                        <label class="fw-bold mb-2 d-block">Available Colors:</label>
+                        <label class="fw-bold mb-2 d-block fs-5">Available Colors:</label>
                         <ul class="mb-0">
                             @foreach($product->colors as $color)
                                 <li class="d-inline-block text-center me-3">
 
-                                    <div style="font-size:12px; margin-top:4px;">{{ $color->color_name }}</div>
+                                    <div style="font-size:14px; margin-top:4px;font-weight:600;">{{ $color->color_name }}</div>
 
                                     <a href="#" class="color-selector"
                                         data-image="{{ asset('storage/' . $color->color_image) }}"
                                         title="{{ $color->color_name }}"
                                         style="display:inline-block;
-                                                                                                                                                                                                                                  width:26px;
-                                                                                                                                                                                                                                  height:26px;
-                                                                                                                                                                                                                                  background: {{ $color->color_code  }};
-                                                                                                                                                                                                                                  border:2px solid #e5e7eb;
-                                                                                                                                                                     box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);">
+                                                                                                                                                                                                                                          width:30px;
+                                                                                                                                                                                                                                          height:30px;
+                                                                                                                                                                                                                                          background: {{ $color->color_code  }};
+                                                                                                                                                                                                                                          border:2px solid #e5e7eb;
+                                                                                                                                                                             box-shadow:inset 0 0 0 2px rgba(255,255,255,.6);">
                                     </a>
 
                                 </li>
@@ -272,17 +272,19 @@
                 </div>
                 <div class="col-md-7">
                     <div class="detail_1r">
-                        <h6 class="d-inline-block bg_yell text-white font_12 ps-3 pe-3 pt-2 pb-2 rounded-1">XYZ600</h6>
+                        <h6 class="d-inline-block bg_yell text-white font_12 ps-3 pe-3 pt-2 pb-2 rounded-1">
+                            {{ $product->item_number }}
+                        </h6>
                         <h4 class="mt-2">{{ $product->name }}</h4>
                         <div class="container my-3">
                             <div class="row text-center border">
-                                <div class="col-md-6 py-2 border-end">
+                                <div class="col-md-6 py-2 border-end item-short-info">
                                     <span class="fw-bold text-danger">Item Size:</span>
-                                    <span>{{ $product->item_size }}</span>
+                                    <span class="fw-semibold">{{ $product->item_size }}</span>
                                 </div>
-                                <div class="col-md-6 py-2">
+                                <div class="col-md-6 py-2 item-short-info">
                                     <span class="fw-bold text-danger">Imprint Area:</span>
-                                    <span>{{ $product->imprint_area }}</span>
+                                    <span class="fw-semibold">{{ $product->imprint_area }}</span>
                                 </div>
                             </div>
                         </div>
@@ -291,13 +293,13 @@
                         @endphp
 
                         @if($topTabs->count() > 0)
-                            <div class="row detail_2 mt-3">
+                            <div class="row detail_2 mt-5">
                                 <div class="col-md-12">
                                     <ul class="nav nav-tabs mb-0 justify-content-center">
                                         @foreach($topTabs as $index => $tab)
                                             <li class="nav-item d-inline-block me-1">
                                                 <a href="#tab-{{ $tab->id }}" data-bs-toggle="tab" aria-expanded="false"
-                                                    class="nav-link {{ $index == 0 ? 'active' : '' }}">
+                                                    class="nav-link {{ $index == 0 ? 'active' : '' }} px-4 fs-6 rounded-3 py-2">
                                                     <span class="d-md-block">{{ strtoupper($tab->title) }}</span>
                                                 </a>
                                             </li>
@@ -325,7 +327,7 @@
                                                     <div class="row justify-content-center">
                                                         <div class="col-12">
                                                             <div class="table-responsive">
-                                                                <table class="table table-bordered mb-0">
+                                                                <table class="table mb-0">
                                                                     @if($tab->rows->count() > 0)
                                                                         @php
                                                                             $firstRow = $tab->rows->first();
@@ -348,7 +350,7 @@
                                                                         {{-- Table Body: All Rows except First --}}
                                                                         <tbody>
                                                                             @foreach($tab->rows->slice(1) as $rowIndex => $row)
-                                                                                <tr class="pricing-row {{ $rowIndex >= 2 ? 'd-none extra-row' : '' }}"
+                                                                                <tr class="pricing-row {{ $rowIndex >= 3 ? 'd-none extra-row' : '' }}"
                                                                                     data-tab="{{ $tab->id }}">
                                                                                     <th scope="row">{{ $row->label }}</th>
                                                                                     @foreach($row->cells as $cell)
@@ -360,10 +362,9 @@
 
                                                                     @endif
                                                                 </table>
-                                                                @if($tab->rows->count() > 2)
+                                                                @if($tab->rows->count() > 3)
                                                                     <div class="text-center mt-3">
-                                                                        <button class="btn btn-outline-primary show-more-btn"
-                                                                            data-tab="{{ $tab->id }}">
+                                                                        <button class="btn show-more-btn" data-tab="{{ $tab->id }}">
                                                                             Show More Pricing
                                                                         </button>
                                                                     </div>
@@ -382,13 +383,12 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="container px-0 mt-3">
+                        <div class="container px-0 mt-5">
                             <div class="row g-3">
                                 <div class="col-12 col-md-6">
                                     <a href="#" class="d-block position-relative rounded-2 overflow-hidden quotationBtn"
                                         data-bs-toggle="modal" data-bs-target="#quotationModal" data-modal-title="Quotation"
-                                        style="height:150px;
-                          background:url('{{ asset('User/img/quote.jpeg') }}') center/cover no-repeat;">
+                                        style="height:150px; background:url('{{ asset('User/img/request_quote.jpeg') }}') center/cover no-repeat;">
                                         <span class="position-absolute top-0 start-0 m-3 text-white fw-bold"
                                             style="text-shadow:0 1px 2px rgba(0,0,0,.5);">
                                             Request Quotation
@@ -396,18 +396,19 @@
                                     </a>
                                 </div>
 
+
+
                                 <div class="col-12 col-md-6">
                                     <a href="#" class="d-block position-relative rounded-2 overflow-hidden mockupBtn"
                                         data-bs-toggle="modal" data-bs-target="#quotationModal"
-                                        data-modal-title="Request Mockup" style="height:150px;
-                          background:url('{{ asset('User/img/mockup.jpeg') }}') center/cover no-repeat;">
+                                        data-modal-title="Request Mockup"
+                                        style="height:150px; background:url('{{ asset('User/img/mockup.jpeg') }}') center/cover no-repeat;">
                                         <span class="position-absolute top-0 start-0 m-3 text-white fw-bold"
                                             style="text-shadow:0 1px 2px rgba(0,0,0,.5);">
                                             Request Mockup
                                         </span>
                                     </a>
                                 </div>
-
                             </div>
                         </div>
                         <div class="d-flex flex-wrap justify-content-start gap-3 mt-3 mb-4">
@@ -435,7 +436,8 @@
                                         <ul class="nav nav-tabs mb-0 justify-content-start" id="bottomTabsNav">
                                             @foreach($bottomTabs as $tab)
                                                 <li class="nav-item d-inline-block me-1">
-                                                    <a href="#bottom-tab-{{ $tab->id }}" data-bs-toggle="tab" class="nav-link">
+                                                    <a href="#bottom-tab-{{ $tab->id }}" data-bs-toggle="tab"
+                                                        class="nav-link  px-4 fs-6 rounded-3 py-2">
                                                         <span class="d-md-block">{{ strtoupper($tab->title) }}</span>
                                                     </a>
                                                 </li>
@@ -463,19 +465,24 @@
                                                         @if($tab->rows && $tab->rows->count() > 0)
                                                             @php $firstRow = $tab->rows->first(); @endphp
                                                             <div class="table-responsive">
-                                                                <table class="table table-bordered mb-0">
-                                                                    <thead class="table-light">
-                                                                        <tr>
-                                                                            <th scope="col">{{ $firstRow->label }}</th>
+                                                                <table class="table mb-0">
+                                                                    <tbody>
+                                                                        <tr class="bottom-tabs-border">
+                                                                            <th scope="row"
+                                                                                style="background-color:#cedaff;bottom-border:1px solid black;">
+                                                                                {{ $firstRow->label }}
+                                                                            </th>
                                                                             @foreach($firstRow->cells as $cell)
-                                                                                <th scope="col">{{ $cell->value }}</th>
+                                                                                <td scope="col">{{ $cell->value }}</td>
                                                                             @endforeach
                                                                         </tr>
-                                                                    </thead>
-                                                                    <tbody>
+
                                                                         @foreach($tab->rows->slice(1) as $row)
-                                                                            <tr>
-                                                                                <th scope="row">{{ $row->label }}</th>
+                                                                            <tr class="bottom-tabs-border">
+                                                                                <th scope="row"
+                                                                                    style="background-color:#cedaff;bottom-border:1px solid;">
+                                                                                    {{ $row->label }}
+                                                                                </th>
                                                                                 @foreach($row->cells as $cell)
                                                                                     <td>{{ $cell->value }}</td>
                                                                                 @endforeach
@@ -493,7 +500,7 @@
                                     </div>
                                 </div>
 
-                                <div class="detail_4 row mt-4">
+                                <div class="detail_4 row mt-5">
                                     <div class="col-md-12">
                                         <h4>Related Products</h4>
                                         <hr>
@@ -511,7 +518,7 @@
                                                             <figure class="effect-jazz mb-0">
                                                                 <a href="{{ url('product/' . $item->id) }}">
                                                                     <img src="{{ asset('storage/' . ($item->images->first()->image_path ?? 'default.jpg')) }}"
-                                                                        class="w-100" alt="{{ $item->name }}" style="height: 250px;width250px">
+                                                                        class="w-100" alt="{{ $item->name }}">
                                                                 </a>
                                                             </figure>
                                                         </div>
@@ -540,156 +547,6 @@
                                     @endif
                                 </div>
 
-                                <div class="detail_4 row mt-4">
-                                    <div class="col-md-12">
-                                        <h4>Product Reviews</h4>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="detail_5 row">
-                                    <div class="col-md-6">
-                                        <div class="detail_5l">
-                                            <h6 class="mb-4">3 review for Latest Pocket Product</h6>
-                                            <div class="detail_5li row">
-                                                <div class="col-md-2 col-sm-2">
-                                                    <div class="detail_5lil">
-                                                        <img src="img/42.jpg" alt="abc" class="rounded-circle w-100">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-10 col-sm-10">
-                                                    <div class="detail_5lir">
-                                                        <h6 class="font_14">Eget Nulla <span class="col_light font_12 ms-2">- November 12,
-                                                                2022</span>
-                                                            <span class="col_yell font_12 float-end">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-o"></i>
-                                                            </span>
-                                                        </h6>
-                                                        <p class="mb-0">Cramond Leopard & Pythong Print Anorak Jacket In Beige but also the
-                                                            leap into electronic typesetting, remaining.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="detail_5li row mt-3">
-                                                <div class="col-md-2 col-sm-2">
-                                                    <div class="detail_5lil">
-                                                        <img src="img/43.jpg" alt="abc" class="rounded-circle w-100">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-10 col-sm-10">
-                                                    <div class="detail_5lir">
-                                                        <h6 class="font_14">Semper Diam <span class="col_light font_12 ms-2">- November 12,
-                                                                2022</span>
-                                                            <span class="col_yell font_12 float-end">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-o"></i>
-                                                            </span>
-                                                        </h6>
-                                                        <p class="mb-0">Cramond Leopard & Pythong Print Anorak Jacket In Beige but also the
-                                                            leap into electronic typesetting, remaining.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="detail_5li row mt-3">
-                                                <div class="col-md-2 col-sm-2">
-                                                    <div class="detail_5lil">
-                                                        <img src="img/44.jpg" alt="abc" class="rounded-circle w-100">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-10 col-sm-10">
-                                                    <div class="detail_5lir">
-                                                        <h6 class="font_14">Lorem Porta <span class="col_light font_12 ms-2">- November 12,
-                                                                2022</span>
-                                                            <span class="col_yell font_12 float-end">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-o"></i>
-                                                            </span>
-                                                        </h6>
-                                                        <p class="mb-0">Cramond Leopard & Pythong Print Anorak Jacket In Beige but also the
-                                                            leap into electronic typesetting, remaining.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="detail_5li row mt-3 border-0 pb-0">
-                                                <div class="col-md-2 col-sm-2">
-                                                    <div class="detail_5lil">
-                                                        <img src="img/45.jpg" alt="abc" class="rounded-circle w-100">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-10 col-sm-10">
-                                                    <div class="detail_5lir">
-                                                        <h6 class="font_14">Quis Sem <span class="col_light font_12 ms-2">- November 12,
-                                                                2022</span>
-                                                            <span class="col_yell font_12 float-end">
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star"></i>
-                                                                <i class="fa fa-star-half-o"></i>
-                                                            </span>
-                                                        </h6>
-                                                        <p class="mb-0">Cramond Leopard & Pythong Print Anorak Jacket In Beige but also the
-                                                            leap into electronic typesetting, remaining.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="detail_5r">
-                                            <p>Your email address will not be published. Required fields are marked *</p>
-                                            <h6 class="mb-2">YOUR RATING</h6>
-                                            <span class="col_yell fs-6">
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                                <i class="fa fa-star-o"></i>
-                                            </span>
-                                            <h6 class="font_13 mt-4 mb-3">YOUR REVIEW *</h6>
-                                            <textarea class="form-control form_area"></textarea>
-                                            <div class="row detail_5ri mt-4">
-                                                <div class="col-md-6">
-                                                    <div class="detail_5ril">
-                                                        <h6 class="font_13 mb-3">YOUR NAME *</h6>
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="detail_5ril">
-                                                        <h6 class="font_13 mb-3">YOUR EMAIL *</h6>
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row detail_5ri mt-4">
-                                                <div class="col-md-6">
-                                                    <div class="detail_5ril">
-                                                        <h6 class="font_13 mb-3">SUBJECT</h6>
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="detail_5ril">
-                                                        <h6 class="font_13 mb-3">WEBSITE</h6>
-                                                        <input class="form-control" type="text">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <h6 class="mb-0 mt-4"><a class="button" href="#">SUBMIT</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                     </section>
 
@@ -753,12 +610,12 @@
 
     <!-- Images Modal -->
     <div class="modal fade" id="imagesModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-md modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
 
                 <!-- Header -->
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Product Images</h5>
+                <div class="modal-header text-white">
+                    <h5 class="modal-title">Images</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
@@ -771,14 +628,15 @@
                                     <td class="text-start ps-3 fw-semibold">
                                         {{ $image['label'] }}
                                     </td>
+
                                     <td>
                                         <img src="{{ $image['path'] }}" height="60" class="border rounded">
                                     </td>
+
                                     <td>
-                                        <a href="{{ route('image.download', $img->id) }}" class="text-primary fs-5">
+                                        <a href="{{ route('image.download', $image['id']) }}" class="text-primary fs-5">
                                             <i class="bi bi-download"></i>
                                         </a>
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -791,6 +649,7 @@
                                 </tr>
                             @endif
                         </tbody>
+
                     </table>
                 </div>
 
@@ -806,7 +665,6 @@
     </div>
 
 
-
     <!-- Template Modal -->
     <div class="modal fade" id="templateModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -814,24 +672,68 @@
 
                 <!-- Header -->
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Template</h5>
+                    <h5 class="modal-title">Templates</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
 
                 <!-- Body -->
                 <div class="modal-body p-0">
-                    <table class="table table-bordered mb-0 text-center align-middle">
-                        <thead class="table-light">
+                    <table class="table table-bordered mb-0">
+                        <thead>
                             <tr>
-                                <th>Color Swatch</th>
-                                <th>Black &amp; White</th>
+                                <th>Template</th>
+                                <th class="text-center">Download</th>
                             </tr>
                         </thead>
+
                         <tbody>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
+                            {{-- COLOR TEMPLATES --}}
+                            @foreach($product->colors as $color)
+                                <tr>
+                                    <td class="align-middle">
+                                        <img src="{{ asset('storage/' . $color->color_image) }}" width=" 40" height="40"
+                                            style="border:1px solid #ddd">
+                                        <strong class=" ms-2">{{ $color->color_name }}</strong>
+                                    </td>
+
+                                    <td class="text-center">
+                                        @if($color->color_template_pdf)
+                                            <a href="{{ route('template.single', $color->id) }}"
+                                                class="btn btn-sm btn-outline-primary">
+                                                <i class="fa fa-download"></i>
+                                            </a>
+                                        @else
+                                            <span class="text-muted">N/A</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                            {{-- BLACK & WHITE TEMPLATE --}}
+                            <tr class="table-light">
+                                <td>
+                                    <strong>Black & White Template</strong>
+                                </td>
+                                <td class="text-center">
+                                    @if($product->bw_template_pdf)
+                                        <a href="{{ route('template.bw', $product->id) }}" class="btn btn-sm btn-outline-dark">
+                                            <i class="fa fa-download"></i>
+                                        </a>
+                                    @else
+                                        <span class="text-muted">N/A</span>
+                                    @endif
+                                </td>
                             </tr>
+
+                            {{-- DOWNLOAD ALL --}}
+                            <tr>
+                                <td colspan="2" class="text-center">
+                                    <a href="{{ route('template.all', $product->id) }}" class="btn btn-success">
+                                        Download All Color Templates (ZIP)
+                                    </a>
+                                </td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -840,15 +742,16 @@
         </div>
     </div>
 
+
     <!-- Freight Estimator Modal -->
     <div class="modal fade" id="freightModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-md modal-dialog-centered">
             <div class="modal-content">
 
                 <!-- Header -->
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header text-white">
                     <h5 class="modal-title">
-                        <span class="bg-primary px-2 py-1 rounded">Freight Estimator</span>
+                        <span class="px-2 py-1 rounded">Freight Estimator</span>
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
@@ -862,21 +765,6 @@
 
                     <form action="{{ route('freight.submit') }}" method="POST">
                         @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-                        <!-- use the actual product ID -->
-                        <!-- User Email -->
-                        <div class="mb-3">
-                            <label class="form-label">
-                                <span class="text-danger">*</span> Your Email
-                            </label>
-                            <div class="input-group">
-                                <span class="input-group-text">
-                                    <i class="bi bi-envelope"></i>
-                                </span>
-                                <input type="email" class="form-control" name="user_email" placeholder="Enter your email"
-                                    required>
-                            </div>
-                        </div>
 
                         <!-- Quantity -->
                         <div class="mb-3">
@@ -896,7 +784,7 @@
                         <div class="row">
                             <!-- Country -->
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">
+                                <label class=" form-label">
                                     <span class="text-danger">*</span> Country
                                 </label>
                                 <div class="input-group">
@@ -948,8 +836,8 @@
                         </div>
 
                         <!-- Submit Button -->
-                        <button type="submit" class="btn btn-primary">
-                            Calculate & Send
+                        <button type="submit" class="btn show-more-btn">
+                            Send To Email
                         </button>
                     </form>
 
@@ -960,11 +848,11 @@
 
 
     <div class="modal fade" id="quotationModal" tabindex="-1" aria-labelledby="quotationModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+        <div class="modal-dialog modal-dialog-centered modal-md modal-dialog-scrollable">
             <div class="modal-content">
 
                 <!-- Modal Header -->
-                <div class="modal-header bg-primary text-white">
+                <div class="modal-header text-white">
                     <h5 class="modal-title" id="quotationModalLabel">Quotation</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
@@ -980,20 +868,20 @@
                             <img src="{{ $product->images->first()?->image_path ? asset('storage/' . $product->images->first()->image_path) : 'https://via.placeholder.com/80x80' }}"
                                 class="me-3 border" alt="Product" style="height:200px; width:200px;">
                             <div>
-                                <strong>{{ $product->name }}</strong><br>
-                                <small>{{ $product->item_size }}</small><br>
-                                <small class="text-muted">{{ $product->item_number }}</small>
+                                <strong class="fs-5">{{ $product->name }}</strong><br>
+                                <small class="fs-6">{{ $product->item_size }}</small><br>
+                                <small class="fs-6 text-muted">{{ $product->item_number }}</small>
                             </div>
                         </div>
 
                         <!-- Select Color -->
                         <div class="mb-3">
-                            <label class="form-label fw-bold">Select Color:</label>
+                            <label class="form-label fw-bold fs-5">Select Color:</label>
                             <div class="row g-2">
                                 @foreach($product->colors as $color)
-                                    <div class="col-2 form-check">
-                                        <input class="form-check-input" type="checkbox" name="colors[]" value="{{ $color->id }}"
-                                            id="color{{ $color->id }}">
+                                    <div class="col-3 form-check">
+                                        <input class="form-check-input quote-checkbox" type="checkbox" name="colors[]"
+                                            value="{{ $color->id }}" id="color{{ $color->id }}">
                                         <label class="form-check-label"
                                             for="color{{ $color->id }}">{{ $color->color_name }}</label>
                                     </div>
@@ -1065,13 +953,14 @@
                         </div>
 
                         <div class="mt-2">
-                            <button type="button" class="btn btn-outline-secondary" id="addFileBtn">Add</button>
-                            <button type="button" class="btn btn-outline-danger" id="removeFileBtn">Delete</button>
+                            <button type="button" class="btn show-more-btn" id="addFileBtn">Add</button>
+                            <button type="button" class="btn btn-danger" id="removeFileBtn"
+                                style="border-radius:8px;">Delete</button>
                         </div>
 
                         <!-- Submit Button -->
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                        <div class="modal-footer border-0">
+                            <button type="submit" class="btn show-more-btn">Submit</button>
                         </div>
                     </form>
 

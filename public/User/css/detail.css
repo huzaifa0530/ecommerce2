@@ -11,15 +11,14 @@ Licence: <a href="https://www.templateonweb.com/license">Website Template Licenc
 bottom:-50px;
 }
 .detail_1l .carousel-indicators [data-bs-target] {
-background-color: #f7ba01;
+background-color: #252062;
 }
 .detail_1r ul li a{
 display:block;
 border:3px solid #f7ba0121;
-height:35px;
-line-height:31px;
 text-align:center;
  }
+
 .detail_1r ul li a:hover{
 background:#f7ba01;
 border-color:#f7ba01;
@@ -34,9 +33,9 @@ border-color:#f7ba0121;
 }
 .detail_2 .nav-tabs  .nav-link.active {
 border:none;
-border-bottom:1px solid #f7ba01;
-color:#f7ba01;
-background:none;
+/* border-bottom:1px solid #252062; */
+color:#ffffff;
+background-color: #252062;
 }
 .detail_2 .nav-tabs .nav-link {
 border-radius:0;
@@ -45,13 +44,15 @@ padding:0;
 margin-left:25px;
 margin-right:25px;
 padding-bottom:15px;
-color:#000;
+color:#ffffff;
+background-color: #be0e32;
 border-bottom:1px solid transparent;
 font-weight:bold;
 }
 .detail_2 .nav-tabs .nav-link:hover {
-border-bottom:1px solid #f7ba01;
-color:#f7ba01;
+/* border-bottom:1px solid #be0e32; */
+background-color: #252062;
+color:#ffffff;
 }
 .tab_ir h6 i{
 font-size:7px; 
@@ -162,4 +163,33 @@ min-height:350px;
 
  }
 
+ .show-more-btn{
+    border: 1px solid ;
+    background-color: #252062;
+    color: #ffffff;
+    border-radius: 8px;
+ }
 
+  .show-more-btn:hover{
+    border: 1px solid ;
+    background-color: #be0e32;
+    color: #ffffff;
+    border-radius: 8px;
+ }
+
+ .item-short-info{
+   font-size: 18px;
+ }
+
+ .modal-header{
+   background-color: #252062;
+ }
+
+ .quote-checkbox{
+   height: 20px;
+   width: 20px;
+ }
+
+ .bottom-tabs-border{
+  border-color: #252062;
+ }

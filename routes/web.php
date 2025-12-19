@@ -116,4 +116,14 @@ Route::get('/image/download/{id}', [HomeController::class, 'downloadSingleImage'
 
 Route::post('/freight/submit', [HomeController::class, 'submitEstimate'])->name('freight.submit');
 
+Route::get('/template/color/{color}/download', [HomeController::class, 'downloadSingleTemplate'])
+    ->name('template.single');
+
+Route::get('/template/product/{product}/download-all', [HomeController::class, 'downloadAllTemplates'])
+    ->name('template.all');
+
+Route::get('/template/product/{product}/bw', [HomeController::class, 'downloadBwTemplate'])
+    ->name('template.bw');
+
+
 require __DIR__ . '/auth.php';

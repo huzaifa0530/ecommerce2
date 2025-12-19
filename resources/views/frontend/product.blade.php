@@ -33,12 +33,12 @@
 																	<label class="form-check-label d-flex align-items-center color-item
 																															   {{ $index >= 10 ? 'd-none extra-color' : '' }}" style="gap:10px;cursor:pointer;">
 
-																		<input type="checkbox" class="color-checkbox" value="{{ $color->color_name }}" {{ in_array(
+																		<input type="checkbox" class="color-checkbox" value="{{ $color->color_name }}" style="width:18px;height:18px;" {{ in_array(
 											$color->color_name,
 											explode(',', request('colors', ''))
 										) ? 'checked' : '' }}>
 
-																		<span style="width:28px;height:16px;border-radius:4px;
+																		<span style="width:32px;height:20px;border-radius:4px;
 																																	 background: {{ $color->color_code }}">
 																		</span>
 
@@ -76,7 +76,7 @@
 									</p>
 								</div>
 							</div>
-							<div class="col-md-3">
+							<!-- <div class="col-md-3">
 								<div class="prod_pg1r1r">
 									<select name="categories" style="height:50px;" class="form-select" required="">
 										<option value="">Relevance</option>
@@ -87,24 +87,37 @@
 										<option>Price, low to high</option>
 									</select>
 								</div>
-							</div>
+							</div> -->
 						</div>
 						<div class="prod_pg1r2 mt-4 row">
 							@foreach($products as $product)
-								<div class="col-md-4 mb-4">
-									<a href="{{ route('detail', $product->id) }}" class="text-decoration-none text-dark">
-										<div class="prodinm">
-											<img src="{{ asset('storage/' . $product->images->first()->image_path) }}"
-												class="w-100" alt="{{ $product->name }}">
-
-											<div class="bg-white p-3">
-												<h6>{{ $product->name }}</h6>
-												<p class="mb-0">{{ Str::limit($product->description, 50) }}</p>
-											</div>
-										</div>
-									</a>
-								</div>
-							@endforeach
+							<div class="col-md-4 mt-4">
+		 <div class="prodinm clearfix">
+		   <div class="prod_2im position-relative clearfix" style="box-shadow:none;">
+		<div class="prod_2i1 clearfix">
+		<div class="grid clearfix">
+			  <figure class="effect-jazz mb-0">
+				<a href="{{ route('detail', $product->id) }}"><img src="{{ asset('storage/' . $product->images->first()->image_path) }}" class="w-100" alt="{{ $product->name }}"></a>
+			  </figure>
+		  </div>
+		</div>
+		
+		<div class="prod_2i3 clearfix position-absolute w-100">
+		<h6 class="bg_yell d-inline-block pt-1 pb-1 font_13 text-white ps-3 pe-3">{{ $product->item_number }}</h6>
+		</div>
+		</div>
+		   <div class="prod_2i2 pt-4 pb-4 ps-3 pe-3 bg-white clearfix">
+		<div class="text-center">
+			<h6 class="bg_yell d-inline-block pt-1 pb-1 font_13 text-white ps-3 pe-3 text-center">{{ $product->item_size }}</h6>
+		</div>
+		<h6 class="mt-2 fs-5"><a href="{{ route('detail', $product->id) }}">{{ $product->name }}</a></h6>
+		<h6 class="font_13 fs-6"><a class="col_light" href="{{ route('detail', $product->id) }}">{{ Str::limit($product->description, 50) }}</a></h6>
+		
+		</div>
+		 </div>
+		</div>
+		@endforeach
+						
 
 
 						</div>

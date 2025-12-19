@@ -53,8 +53,8 @@
 						questions or need help and support.</p>
 				</div>
 			</div>
-			<div class="row contact_o1">
-				<form action="{{ route('contact.store') }}" method="POST" class="col-md-6">
+			<div class="row contact_o1 justify-content-center">
+				<form action="{{ route('contact.store') }}" method="POST" class="col-md-8">
 					@csrf
 
 						<div class="contact_o1l">
@@ -140,13 +140,6 @@
 
 				</form>
 
-				<div class="col-md-6">
-					<div class="contact_o1r">
-						<iframe
-							src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114964.53925916665!2d-80.29949920266738!3d25.782390733064336!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x88d9b0a20ec8c111%3A0xff96f271ddad4f65!2sMiami%2C+FL%2C+USA!5e0!3m2!1sen!2sin!4v1530774403788"
-							height="380" style="border:0; width:100%;" allowfullscreen=""></iframe>
-					</div>
-				</div>
 			</div>
 		</div>
 	</section>
