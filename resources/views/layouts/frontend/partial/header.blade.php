@@ -76,35 +76,30 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle act_cat nav_hide bg_yell" href="#" id="navbarDropdown"
-                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa fa-navicon me-1"></i> BROWSER ALL CATEGORIES
-                        </a>
-                 
-                        <ul class="dropdown-menu drop_cat" aria-labelledby="navbarDropdown">
-                            @foreach($allCategories as $cat)
-                                <li class="dropdown-submenu">
-                                    <a class="dropdown-item dropdown-toggle" href="#">
-                                        <i class="fa fa-folder-open me-2 col_yell"></i> {{ $cat->name }}
-                                    </a>
+                   <li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle act_cat nav_hide bg_yell" href="#" 
+     id="categoriesDropdown" role="button" data-bs-toggle="dropdown" 
+     aria-expanded="false" data-bs-auto-close="outside">
+    <i class="fa fa-navicon me-1"></i> BROWSER ALL CATEGORIES
+  </a>
+  <ul class="dropdown-menu drop_cat" aria-labelledby="categoriesDropdown">
+    @foreach($allCategories as $cat)
+      <li class="dropdown-submenu">
+        <a class="dropdown-item dropdown-toggle" href="#">
+          <i class="fa fa-folder-open me-2 col_yell"></i> {{ $cat->name }}
+        </a>
+        @if($cat->subcategories->count() > 0)
+          <ul class="dropdown-menu p-0">
+            @foreach($cat->subcategories as $sub)
+              <li><a class="dropdown-item" href="{{ route('product', ['category_id' => $sub->id]) }}">{{ $sub->name }}</a></li>
+            @endforeach
+          </ul>
+        @endif
+      </li>
+    @endforeach
+  </ul>
+</li>
 
-                                    @if($cat->subcategories->count() > 0)
-                                        <ul class="dropdown-menu p-0">
-                                            @foreach($cat->subcategories as $sub)
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('product', ['category_id' => $sub->id]) }}">
-                                                        {{ $sub->name }}
-                                                    </a>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
-                                </li>
-                            @endforeach
-                        </ul>
-                    </li>
 
 
                     <li class="nav-item">

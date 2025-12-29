@@ -3,7 +3,18 @@
 @section('title', 'Eco Mart')
 
 @section('content')
+<style>
+	.dropdown-submenu {
+    position: relative;
+}
 
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+}
+
+</style>
 	<!-- <section id="center" class="center_home">
 	 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
 	  <div class="carousel-indicators">
@@ -891,5 +902,39 @@
 			});
 		});
 	</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.drop_cat .dropdown-submenu > a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            console.log('Clicked submenu link!'); // test
+
+            let submenu = this.nextElementSibling;
+            if (!submenu) return;
+
+            let parentMenu = this.closest('.dropdown-menu');
+            parentMenu.querySelectorAll('.dropdown-menu.show').forEach(function(openMenu) {
+                if (openMenu !== submenu) openMenu.classList.remove('show');
+            });
+
+            submenu.classList.toggle('show');
+        });
+    });
+
+    // Close all nested submenus when parent dropdown closes
+    document.querySelectorAll('.drop_cat').forEach(function(dropdown) {
+        dropdown.addEventListener('hidden.bs.dropdown', function() {
+            this.querySelectorAll('.dropdown-menu.show').forEach(function(open) {
+                open.classList.remove('show');
+            });
+        });
+    });
+});
+</script>
+
+
 </section>
 @endsection
