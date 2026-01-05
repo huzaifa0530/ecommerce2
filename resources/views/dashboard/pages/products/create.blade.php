@@ -144,51 +144,87 @@
                                         <button type="button" id="add-top-tab" class="btn btn-sm btn-secondary mt-2">Add Top
                                             Tab</button>
                                     </div>
+@php
+    function safe_display($value, $separator = ', ') {
+        if (is_array($value)) return implode($separator, $value);
+        return $value ?? '';
+    }
+@endphp
 
+<div class="row">
 
+    <!-- ================= BLANK TAB ================= -->
+    <div class="col-md-6 mb-3">
+        <label>Price Include</label>
+        <textarea name="price_include_text" class="form-control">{{ safe_display(old('price_include_text', $product->price_include_sh ?? []), "\n") }}</textarea>
+    </div>
 
+    <div class="col-md-6 mb-3">
+        <label>Lead Time</label>
+        <input type="text" name="lead_time_text" class="form-control" 
+               value="{{ safe_display(old('lead_time_text', $product->lead_time_sh ?? [])) }}">
+    </div>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label>Price Include</label>
-                                        <textarea name="price_include"
-                                            class="form-control">{{ old('price_include') }}</textarea>
-                                    </div>
+    <div class="col-md-6 mb-3">
+        <label>MOQ</label>
+        <input type="text" name="MOQ" class="form-control" 
+               value="{{ old('MOQ', $product->MOQ_blank ?? '') }}">
+    </div>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label>Lead Time</label>
-                                        <input type="text" name="lead_time" class="form-control"
-                                            value="{{ old('lead_time') }}">
-                                    </div>
+</div>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label>MOQ</label>
-                                        <input type="text" name="MOQ" class="form-control" value="{{ old('MOQ') }}">
-                                    </div>
+<div class="row">
 
-                                    <div class="col-md-6 mb-3">
-                                        <label>Price Includes</label>
-                                        <textarea name="price_includes"
-                                            class="form-control">{{ old('price_includes') }}</textarea>
-                                    </div>
+    <!-- ================= SPOT / HEAT PRINTING ================= -->
+    <div class="col-md-6 mb-3">
+        <label>Price Includes (Spot Printing)</label>
+        <input type="text" name="price_includes[0]" class="form-control"
+               value="{{ safe_display(old('price_includes.0', $product->price_include_sh[0] ?? '')) }}">
+    </div>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label>Lead Time (Repeat)</label>
-                                        <input type="text" name="lead_time_repeat" class="form-control"
-                                            value="{{ old('lead_time_repeat') }}">
-                                    </div>
+    <div class="col-md-6 mb-3">
+        <label>Price Includes (Heat Printing)</label>
+        <input type="text" name="price_includes[1]" class="form-control"
+               value="{{ safe_display(old('price_includes.1', $product->price_include_sh[1] ?? '')) }}">
+    </div>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label>Setup Charge</label>
-                                        <input type="text" name="setup_charge" class="form-control"
-                                            value="{{ old('setup_charge') }}">
-                                    </div>
+    <div class="col-md-6 mb-3">
+        <label>Lead Time (Spot Printing)</label>
+        <input type="text" name="lead_time_repeat[0]" class="form-control"
+               value="{{ safe_display(old('lead_time_repeat.0', $product->lead_time_sh[0] ?? '')) }}">
+    </div>
 
-                                    <div class="col-md-6 mb-3">
-                                        <label>Repeat Setup</label>
-                                        <input type="text" name="repeat_setup" class="form-control"
-                                            value="{{ old('repeat_setup') }}">
-                                    </div>
+    <div class="col-md-6 mb-3">
+        <label>Lead Time (Heat Printing)</label>
+        <input type="text" name="lead_time_repeat[1]" class="form-control"
+               value="{{ safe_display(old('lead_time_repeat.1', $product->lead_time_sh[1] ?? '')) }}">
+    </div>
 
+    <div class="col-md-6 mb-3">
+        <label>Setup Charge (Spot Printing)</label>
+        <input type="text" name="setup_charge[0]" class="form-control"
+               value="{{ safe_display(old('setup_charge.0', $product->setup_charge_sh[0] ?? '')) }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Setup Charge (Heat Printing)</label>
+        <input type="text" name="setup_charge[1]" class="form-control"
+               value="{{ safe_display(old('setup_charge.1', $product->setup_charge_sh[1] ?? '')) }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Repeat Setup (Spot Printing)</label>
+        <input type="text" name="repeat_setup[0]" class="form-control"
+               value="{{ safe_display(old('repeat_setup.0', $product->repeat_setup_sh[0] ?? '')) }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Repeat Setup (Heat Printing)</label>
+        <input type="text" name="repeat_setup[1]" class="form-control"
+               value="{{ safe_display(old('repeat_setup.1', $product->repeat_setup_sh[1] ?? '')) }}">
+    </div>
+
+</div>
 
 
                                     <!-- Bottom Tabs Section -->

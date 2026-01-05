@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Contact Form Submission</title>
+    <title>Freight Estimate Request</title>
     <style>
         body {
             font-family: Arial, Helvetica, sans-serif;
@@ -53,16 +53,18 @@
 
 <body>
     <div class="container">
-        <div class="header">Ink Well – Contact Form Submission</div>
+        <div class="header">Ink Well – Freight Estimate Request</div>
 
         <div class="content">
-            <p>New contact form submission received with the following details:</p>
-            <p><span class="label">First Name:</span> {{ $data['first_name'] }}</p>
-            <p><span class="label">Last Name:</span> {{ $data['last_name'] }}</p>
-            <p><span class="label">Email:</span> {{ $data['email'] }}</p>
-            <p><span class="label">Phone:</span> {{ $data['phone'] ?? 'N/A' }}</p>
-            <p><span class="label">Message:</span></p>
-            <p>{{ $data['message'] }}</p>
+            <p>New freight estimate request received with the following details:</p>
+            <p><strong>Item Name:</strong> {{ $data['item_name'] }}</p>
+            <p><strong>Item Number:</strong> {{ $data['item_number'] }}</p>
+            <p><span class="label">User Email:</span> {{ $data['user_email'] }}</p>
+            <p><span class="label">Quantity:</span> {{ $data['quantity'] }}</p>
+            <p><span class="label">Country:</span> {{ $data['country'] }}</p>
+            <p><span class="label">State:</span> {{ $data['state'] }}</p>
+            <p><span class="label">Zip Code:</span> {{ $data['zip'] }}</p>
+            <p><span class="label">Residential:</span> {{ $data['residential'] ?? 'No' }}</p>
         </div>
 
         <div class="footer">

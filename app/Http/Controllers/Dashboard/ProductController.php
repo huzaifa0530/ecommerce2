@@ -25,7 +25,7 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::with('category')->latest()->paginate(20);
+        $products = Product::with('category')->latest()->get();
         return view('dashboard.pages.products.index', compact('products'));
     }
 
@@ -47,6 +47,9 @@ class ProductController extends Controller
                     ->store('bw_templates', 'public');
             }
 
+            $price_include = array_map('trim', explode("\n", $request->price_include_text));
+            $lead_time = explode(",", $request->lead_time_text);
+
             $product = Product::create([
                 'category_id' => $request->category_id,
                 'name' => $request->name,
@@ -56,13 +59,27 @@ class ProductController extends Controller
                 'item_size' => $request->item_size,
                 'imprint_area' => $request->imprint_area,
                 'bw_template_pdf' => $bwTemplatePath,
-                'price_include' => $request->price_include,
-                'lead_time' => $request->lead_time,
-                'MOQ' => $request->MOQ,
-                'price_includes' => $request->price_includes,
-                'lead_time_repeat' => $request->lead_time_repeat,
-                'setup_charge' => $request->setup_charge,
-                'repeat_setup' => $request->repeat_setup,
+
+                'price_include_sh' => [
+                    $request->input('price_includes.0', ''), // Spot
+                    $request->input('price_includes.1', '')  // Heat
+                ],
+                'lead_time_sh' => [
+                    $request->input('lead_time_repeat.0', ''), // Spot
+                    $request->input('lead_time_repeat.1', '')  // Heat
+                ],
+                'setup_charge_sh' => [
+                    $request->input('setup_charge.0', ''), // Spot
+                    $request->input('setup_charge.1', '')  // Heat
+                ],
+                'repeat_setup_sh' => [
+                    $request->input('repeat_setup.0', ''), // Spot
+                    $request->input('repeat_setup.1', '')  // Heat
+                ],
+                // NEW FIELDS
+                'price_include_blank' => $request->price_include_text, // optional duplicate as string
+                'lead_time_repeat_blank' => $request->lead_time_text,
+                'MOQ_blank' => $request->MOQ,
             ]);
             // ✔ Save colors
             // ✔ Save colors
@@ -214,7 +231,21 @@ class ProductController extends Controller
             'images',
             'tabs.rows.cells'
         ])->findOrFail($id);
+        $product->price_include_sh = is_string($product->price_include_sh)
+            ? json_decode($product->price_include_sh, true)
+            : ($product->price_include_sh ?? []);
 
+        $product->lead_time_sh = is_string($product->lead_time_sh)
+            ? json_decode($product->lead_time_sh, true)
+            : ($product->lead_time_sh ?? []);
+
+        $product->setup_charge_sh = is_string($product->setup_charge_sh)
+            ? json_decode($product->setup_charge_sh, true)
+            : ($product->setup_charge_sh ?? []);
+
+        $product->repeat_setup_sh = is_string($product->repeat_setup_sh)
+            ? json_decode($product->repeat_setup_sh, true)
+            : ($product->repeat_setup_sh ?? []);
         $categories = Category::all();
 
         return view('dashboard.pages.products.edit', compact('product', 'categories'));
@@ -231,22 +262,40 @@ class ProductController extends Controller
             Log::info('Update Product Request Data', $request->all());
 
             // Update product basic info
-            $data = $request->only([
-                'category_id',
-                'name',
-                'item_number',
-                'description',
-                'material',
-                'item_size',
-                'imprint_area',
-                'price_include',
-                'lead_time',
-                'MOQ',
-                'price_includes',
-                'lead_time_repeat',
-                'setup_charge',
-                'repeat_setup'
+            $product->category_id = $request->category_id;
+            $product->name = $request->name;
+            $product->item_number = $request->item_number;
+            $product->description = $request->description;
+            $product->material = $request->material;
+            $product->item_size = $request->item_size;
+            $product->imprint_area = $request->imprint_area;
+            $product->price_include_sh = json_encode([
+                $request->input('price_includes.0', ''),
+                $request->input('price_includes.1', '')
             ]);
+
+            $product->lead_time_sh = json_encode([
+                $request->input('lead_time_repeat.0', ''),
+                $request->input('lead_time_repeat.1', '')
+            ]);
+
+            $product->setup_charge_sh = json_encode([
+                $request->input('setup_charge.0', ''),
+                $request->input('setup_charge.1', '')
+            ]);
+
+            $product->repeat_setup_sh = json_encode([
+                $request->input('repeat_setup.0', ''),
+                $request->input('repeat_setup.1', '')
+            ]);
+
+            // Blank / raw fields
+            $product->price_include_blank = $request->price_include_text ?? null;
+            $product->lead_time_repeat_blank = $request->lead_time_text ?? null;
+            $product->MOQ_blank = $request->input('MOQ', null);
+
+            $product->save();
+
 
             // Add BW template if uploaded
             if ($request->hasFile('bw_template_pdf')) {
@@ -442,7 +491,34 @@ class ProductController extends Controller
 
                 }
             }
+            if ($request->new_top_tab_rows) {
+                foreach ($request->new_top_tab_rows as $tabId => $rows) {
+                    foreach ($rows as $rowIndex => $rowData) {
+                        Log::info("New Top Row added by user", [
+                            'tab_id' => $tabId,
+                            'row_index' => $rowIndex,
+                            'label' => $rowData['label'] ?? '',
+                            'cells' => $rowData['cells'] ?? []
+                        ]);
+                    }
+                }
+            }
 
+            // --------------------------
+// LOG NEW ROWS IN EXISTING BOTTOM TABS
+// --------------------------
+            if ($request->new_bottom_tab_rows) {
+                foreach ($request->new_bottom_tab_rows as $tabId => $rows) {
+                    foreach ($rows as $rowIndex => $rowData) {
+                        Log::info("New Bottom Row added by user", [
+                            'tab_id' => $tabId,
+                            'row_index' => $rowIndex,
+                            'label' => $rowData['label'] ?? '',
+                            'cells' => $rowData['cells'] ?? []
+                        ]);
+                    }
+                }
+            }
             // --------------------------
             // UPDATE EXISTING BOTTOM TABS
             // --------------------------

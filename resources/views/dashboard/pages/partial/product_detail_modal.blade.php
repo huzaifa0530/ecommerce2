@@ -109,17 +109,42 @@
     @endif
 
     <hr>
+
+
     {{-- Extra Fields --}}
-    <h6>Extra Details</h6>
-    <ul>
-        <li>Price Include: {{ $product->price_include ?? '-' }}</li>
-        <li>Lead Time: {{ $product->lead_time ?? '-' }}</li>
-        <li>MOQ: {{ $product->MOQ ?? '-' }}</li>
-        <li>Price Includes: {{ $product->price_includes ?? '-' }}</li>
-        <li>Lead Time (Repeat): {{ $product->lead_time_repeat ?? '-' }}</li>
-        <li>Setup Charge: {{ $product->setup_charge ?? '-' }}</li>
-        <li>Repeat Setup: {{ $product->repeat_setup ?? '-' }}</li>
-    </ul>
+<h6>Extra Details</h6>
+@php
+    $price_include = json_decode($product->price_include_sh ?? '[]', true);
+    $lead_time = json_decode($product->lead_time_sh ?? '[]', true);
+    $setup_charge = json_decode($product->setup_charge_sh ?? '[]', true);
+    $repeat_setup = json_decode($product->repeat_setup_sh ?? '[]', true);
+@endphp
+
+<ul>
+
+    {{-- BLANK --}}
+    <li><strong>Price Include (Blank):</strong> {{ show_value($product->price_include_blank, ' | ') }}</li>
+    <li><strong>Lead Time (Blank):</strong> {{ show_value($product->lead_time_repeat_blank) }}</li>
+    <li><strong>MOQ:</strong> {{ show_value($product->MOQ_blank) }}</li>
+
+    <hr>
+
+    {{-- SPOT / HEAT --}}
+    <li><strong>Price Include (Spot):</strong> {{ show_value($price_include[0] ?? '-') }}</li>
+    <li><strong>Price Include (Heat):</strong> {{ show_value($price_include[1] ?? '-') }}</li>
+
+    <li><strong>Lead Time (Spot):</strong> {{ show_value($lead_time[0] ?? '-') }}</li>
+    <li><strong>Lead Time (Heat):</strong> {{ show_value($lead_time[1] ?? '-') }}</li>
+
+    <li><strong>Setup Charge (Spot):</strong> {{ show_value($setup_charge[0] ?? '-') }}</li>
+    <li><strong>Setup Charge (Heat):</strong> {{ show_value($setup_charge[1] ?? '-') }}</li>
+
+    <li><strong>Repeat Setup (Spot):</strong> {{ show_value($repeat_setup[0] ?? '-') }}</li>
+    <li><strong>Repeat Setup (Heat):</strong> {{ show_value($repeat_setup[1] ?? '-') }}</li>
+</ul>
+
+<hr>
+
     <hr>
 
     {{-- Bottom Tabs --}}

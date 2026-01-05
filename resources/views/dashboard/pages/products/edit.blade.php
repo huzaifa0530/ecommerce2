@@ -228,49 +228,88 @@
                                             + Add New Top Tab
                                         </button>
                                     </div>
-                                    <div class="row">
-                                        <div class="col-md-6 mb-2">
-                                            <label>Price Include</label>
-                                            <textarea name="price_include"
-                                                class="form-control">{{ old('price_include', $product->price_include) }}</textarea>
-                                        </div>
 
-                                        <div class="col-md-6 mb-2">
-                                            <label>Lead Time</label>
-                                            <input type="text" name="lead_time" class="form-control"
-                                                value="{{ old('lead_time', $product->lead_time) }}">
-                                        </div>
+<div class="row">
+    <div class="col-md-6 mb-3">
+        <label>Price Include (Blank)</label>
+        <input type="text"  name="price_include_text" class="form-control" value=" {{ old('price_include_text', $product->price_include_blank ?? '') }}"/>
 
-                                        <div class="col-md-6 mb-2">
-                                            <label>MOQ</label>
-                                            <input type="text" name="MOQ" class="form-control"
-                                                value="{{ old('MOQ', $product->MOQ) }}">
-                                        </div>
+    </div>
 
-                                        <div class="col-md-6 mb-2">
-                                            <label>Price Includes</label>
-                                            <textarea name="price_includes"
-                                                class="form-control">{{ old('price_includes', $product->price_includes) }}</textarea>
-                                        </div>
+    <div class="col-md-6 mb-3">
+        <label>Lead Time (Blank)</label>
+     
+<input type="text" name="lead_time_text" class="form-control" 
+       value="{{ old('lead_time_text', $product->lead_time_repeat_blank ?? '') }}">
 
-                                        <div class="col-md-6 mb-2">
-                                            <label>Lead Time (Repeat)</label>
-                                            <input type="text" name="lead_time_repeat" class="form-control"
-                                                value="{{ old('lead_time_repeat', $product->lead_time_repeat) }}">
-                                        </div>
+    </div>
 
-                                        <div class="col-md-6 mb-2">
-                                            <label>Setup Charge</label>
-                                            <input type="text" name="setup_charge" class="form-control"
-                                                value="{{ old('setup_charge', $product->setup_charge) }}">
-                                        </div>
+    <div class="col-md-6 mb-3">
+        <label>MOQ (Blank)</label>
+        <input type="text" name="MOQ" class="form-control" 
+               value="{{ old('MOQ', $product->MOQ_blank ?? '1') }}">
+    </div>
+</div>
 
-                                        <div class="col-md-6 mb-2">
-                                            <label>Repeat Setup</label>
-                                            <input type="text" name="repeat_setup" class="form-control"
-                                                value="{{ old('repeat_setup', $product->repeat_setup) }}">
-                                        </div>
-                                    </div>
+
+<div class="row">
+    @php
+        $priceIncludes = $product->price_include_sh ?? ['1','0'];
+        $leadTimes = $product->lead_time_sh ?? ['1','0'];
+        $setupCharges = $product->setup_charge_sh ?? ['1','0'];
+        $repeatSetups = $product->repeat_setup_sh ?? ['1','0'];
+    @endphp
+
+    <div class="col-md-6 mb-3">
+        <label>Price Includes (Spot Printing)</label>
+        <input type="text" name="price_includes[0]" class="form-control"
+               value="{{ old('price_includes.0', $priceIncludes[0] ?? '1') }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Price Includes (Heat Printing)</label>
+        <input type="text" name="price_includes[1]" class="form-control"
+               value="{{ old('price_includes.1', $priceIncludes[1] ?? '0') }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Lead Time (Spot Printing)</label>
+        <input type="text" name="lead_time_repeat[0]" class="form-control"
+               value="{{ old('lead_time_repeat.0', $leadTimes[0] ?? '1') }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Lead Time (Heat Printing)</label>
+        <input type="text" name="lead_time_repeat[1]" class="form-control"
+               value="{{ old('lead_time_repeat.1', $leadTimes[1] ?? '0') }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Setup Charge (Spot Printing)</label>
+        <input type="text" name="setup_charge[0]" class="form-control"
+               value="{{ old('setup_charge.0', $setupCharges[0] ?? '1') }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Setup Charge (Heat Printing)</label>
+        <input type="text" name="setup_charge[1]" class="form-control"
+               value="{{ old('setup_charge.1', $setupCharges[1] ?? '0') }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Repeat Setup (Spot Printing)</label>
+        <input type="text" name="repeat_setup[0]" class="form-control"
+               value="{{ old('repeat_setup.0', $repeatSetups[0] ?? '1') }}">
+    </div>
+
+    <div class="col-md-6 mb-3">
+        <label>Repeat Setup (Heat Printing)</label>
+        <input type="text" name="repeat_setup[1]" class="form-control"
+               value="{{ old('repeat_setup.1', $repeatSetups[1] ?? '0') }}">
+    </div>
+</div>
+
+
                                     <!-- Bottom Tabs -->
                                     <div class="col-md-12 mb-4">
                                         <h5 class="mb-3">Bottom Tabs</h5>
@@ -327,7 +366,6 @@
 
                                                     <button type="button" onclick="addOldBottomRow({{ $tab->id }})"
                                                         class="btn btn-sm btn-primary mt-2">Add Row</button>
-
                                                 </div>
                                             @endforeach
                                         </div>
@@ -406,65 +444,62 @@
             `;
             container.appendChild(row);
         }
-        function addOldBottomRow(tabId) {
-            let container = document.getElementById(`existing-bottom-tab-${tabId}-rows`);
-            let rowIndex = container.children.length;
+       function addOldBottomRow(tabId) {
+    let container = document.getElementById(`existing-bottom-tab-${tabId}-rows`);
+    let rowIndex = container.children.length;
 
-            let row = document.createElement('div');
-            row.classList.add("border", "p-2", "rounded", "mb-2");
+    let row = document.createElement('div');
+    row.classList.add("border", "p-2", "rounded", "mb-2");
 
-            row.innerHTML = `
-                    <div class="d-flex justify-content-between"><strong>Row</strong></div>
-                    <div class="row mt-2">
-                        <div class="col-md-3">
-                            <input type="text" name="new_bottom_tab_rows[${tabId}][${rowIndex}][label]" 
-                                   class="form-control" placeholder="Label">
-                        </div>
-                        <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"></div>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-secondary mt-2 add-bottom-column" data-tab="${tabId}" data-row="${rowIndex}">Add Column</button>
-                `;
-            container.appendChild(row);
-        }
+    row.innerHTML = `
+        <div class="d-flex justify-content-between"><strong>Row</strong></div>
+        <div class="row mt-2">
+            <div class="col-md-3">
+                <input type="text" name="new_bottom_tab_rows[${tabId}][${rowIndex}][label]" 
+                       class="form-control" placeholder="Label">
+            </div>
+            <div class="col-md-9 d-flex gap-2 flex-wrap columns-wrapper"></div>
+        </div>
+        <button type="button" class="btn btn-sm btn-secondary mt-2 add-new-bottom-column" 
+                data-tab="${tabId}" data-row="${rowIndex}">Add Column</button>
+    `;
+    container.appendChild(row);
+}
 
         // ------------------- EVENT DELEGATION -------------------
-        document.addEventListener('click', function (e) {
-            if (!e.target.matches('.add-top-column, .add-bottom-column, .add-new-column')) return;
+document.addEventListener('click', function (e) {
+    if (!e.target.matches('.add-top-column, .add-bottom-column, .add-new-column, .add-new-bottom-column')) return;
 
-            let button = e.target;
-            let rowWrapper = button.closest('.border').querySelector('.columns-wrapper');
+    let button = e.target;
+    let rowWrapper = button.closest('.border').querySelector('.columns-wrapper');
 
-            let tabId = button.dataset.tab;
-            let rowId = button.dataset.row;
+    let tabId = button.dataset.tab;
+    let rowId = button.dataset.row;
 
-            let input = document.createElement('input');
-            input.type = 'text';
-            input.classList.add('form-control', 'mb-1');
-            input.placeholder = "New Column";
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.classList.add('form-control', 'mb-1');
+    input.placeholder = "New Column";
 
-            if (button.classList.contains('add-top-column')) {
-                if (button.classList.contains('add-new-column')) {
-                    // New row in existing tab
-                    input.name = `new_top_tab_rows[${tabId}][${rowId}][cells][]`;
-                } else {
-                    // Existing row, new column
-                    input.name = `new_top_tab_cells[${tabId}][${rowId}][]`;
-                }
-            }
+    // Handle top tab - new row in existing tab
+    if (button.classList.contains('add-new-column')) {
+        input.name = `new_top_tab_rows[${tabId}][${rowId}][cells][]`;
+    }
+    // Handle top tab - existing row, new column
+    else if (button.classList.contains('add-top-column')) {
+        input.name = `new_top_tab_cells[${tabId}][${rowId}][]`;
+    }
+    // Handle bottom tab - new row in existing tab
+    else if (button.classList.contains('add-new-bottom-column')) {
+        input.name = `new_bottom_tab_rows[${tabId}][${rowId}][cells][]`;
+    }
+    // Handle bottom tab - existing row, new column
+    else if (button.classList.contains('add-bottom-column')) {
+        input.name = `new_bottom_tab_cells[${tabId}][${rowId}][]`;
+    }
 
-
-            else if (button.classList.contains('add-bottom-column')) {
-                if (button.classList.contains('add-new-column')) {
-                    input.name = `new_bottom_tab_rows[${tabId}][${rowId}][cells][]`;
-                } else {
-                    input.name = `new_bottom_tab_cells[${tabId}][${rowId}][]`;
-                }
-            }
-
-            rowWrapper.appendChild(input);
-        });
-
-
+    rowWrapper.appendChild(input);
+});
     </script>
     <script>
         function addNewTopTab() {

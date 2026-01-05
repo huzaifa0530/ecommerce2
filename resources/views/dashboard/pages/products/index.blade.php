@@ -127,10 +127,10 @@
                                                         <i class="feather icon-eye"></i>
                                                     </button>
                                                     <!-- 
-                                                                    <a href="{{ route('product.quote.show', $product->id) }}" target="_blank"
-                                                                        class="btn btn-primary">
-                                                                        Quote
-                                                                    </a> -->
+                                                                            <a href="{{ route('product.quote.show', $product->id) }}" target="_blank"
+                                                                                class="btn btn-primary">
+                                                                                Quote
+                                                                            </a> -->
 
                                                     <form action="{{ route('products.destroy', $product) }}" method="POST"
                                                         onsubmit="return confirm('Delete this product?');">
@@ -172,7 +172,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            {{ $products->links() }}
+                
                         </div>
                     </div>
                 </div>
@@ -215,39 +215,84 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
-            // 🔥 When toggle is clicked
+            // ===================== TOGGLE HANDLING =====================
             document.querySelector('table').addEventListener('change', function (e) {
-                if (e.target.classList.contains('special-offer-toggle')) {
-                    let toggle = e.target;
+                const toggle = e.target;
+
+                // ----- Special Offer Toggle -----
+                if (toggle.classList.contains('special-offer-toggle')) {
+                    const productId = toggle.dataset.id;
 
                     if (toggle.checked) {
-                        let id = toggle.dataset.id;
-                        document.getElementById('modal_product_id').value = id;
+                        // Fill modal values
+                        document.getElementById('modal_product_id').value = productId;
                         document.getElementById('price_before').value = toggle.dataset.before || '';
                         document.getElementById('price_after').value = toggle.dataset.after || '';
+                        // Show modal
                         $('#specialOfferModal').modal('show');
                     } else {
-                        updateSpecialOffer(toggle.dataset.id, 0, null, null);
+                        // Disable special offer directly
+                        updateSpecialOffer(productId, 0, null, null);
                     }
+                }
+
+                // ----- Popular Toggle -----
+                if (toggle.classList.contains('popular-toggle')) {
+                    const productId = toggle.dataset.id;
+                    const status = toggle.checked ? 1 : 0;
+
+                    fetch(`/products/${productId}/popular-toggle`, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ is_popular: status })
+                    })
+                        .then(res => res.json())
+                        .then(data => console.log('Popular updated:', data))
+                        .catch(err => console.error('Error updating popular:', err));
                 }
             });
 
-            // 🔥 Modal Form Submit
+            // ===================== SPECIAL OFFER MODAL FORM =====================
             document.getElementById('specialOfferForm').addEventListener('submit', function (e) {
                 e.preventDefault();
 
-                let id = document.getElementById('modal_product_id').value;
-                let before = document.getElementById('price_before').value;
-                let after = document.getElementById('price_after').value;
+                const id = document.getElementById('modal_product_id').value;
+                const before = document.getElementById('price_before').value;
+                const after = document.getElementById('price_after').value;
 
                 updateSpecialOffer(id, 1, before, after);
 
+                // Hide modal after submit
                 $('#specialOfferModal').modal('hide');
+            });
+
+            // ===================== PRODUCT DETAIL MODAL =====================
+            const productModal = new bootstrap.Modal(document.getElementById('productDetailModal'));
+            const productContent = document.getElementById('productDetailContent');
+
+            document.querySelectorAll('.view-product-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const productId = this.dataset.id;
+
+                    fetch(`/products/${productId}/detail`)
+                        .then(res => res.text())
+                        .then(html => {
+                            productContent.innerHTML = html;
+                            productModal.show();
+                        })
+                        .catch(err => {
+                            productContent.innerHTML = '<p class="text-danger">Failed to load product details.</p>';
+                            productModal.show();
+                        });
+                });
             });
 
         });
 
-        // 🔥 AJAX CALL
+        // ===================== AJAX FUNCTIONS =====================
         function updateSpecialOffer(id, status, before, after) {
             fetch(`/products/${id}/special-offer`, {
                 method: 'POST',
@@ -260,34 +305,11 @@
                     special_price_before: before,
                     special_price_after: after
                 })
-            });
-            document.addEventListener('DOMContentLoaded', function () {
-
-
-            });
-
+            })
+                .then(res => res.json())
+                .then(data => console.log('Special Offer updated:', data))
+                .catch(err => console.error('Error updating special offer:', err));
         }
-        document.addEventListener('DOMContentLoaded', function () {
-            document.querySelector('table').addEventListener('change', function (e) {
-                if (e.target.classList.contains('popular-toggle')) {
-                    let toggle = e.target;
-                    let id = toggle.dataset.id;
-                    let status = toggle.checked ? 1 : 0;
-
-                    fetch(`/products/${id}/popular-toggle`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ is_popular: status })
-                    })
-                        .then(res => res.json())
-                        .then(data => console.log("Popular updated:", data))
-                        .catch(err => console.error("Error:", err));
-                }
-            });
-        });
 
     </script>
 

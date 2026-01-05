@@ -355,58 +355,84 @@
                                                         </table>
                                                     </div>
 
-                                                    {{-- 🔥 PRODUCT FIELDS (THIS IS THE FIX) --}}
-                                                    <div class="row mt-4">
-                                                        <div class="col-md-10 mx-auto">
+                               @php
+    $price_include = json_decode($product->price_include_sh ?? '[]', true);
+    $lead_time = json_decode($product->lead_time_sh ?? '[]', true);
+    $setup_charge = json_decode($product->setup_charge_sh ?? '[]', true);
+    $repeat_setup = json_decode($product->repeat_setup_sh ?? '[]', true);
+@endphp
+<div class="row mt-4">
+    <div class="col-md-10 mx-auto">
 
-                                                            {{-- Spot Printing & Heat Transfer --}}
-                                                            @if(in_array($tabTitle, ['spot printing', 'heat transfer']))
+        {{-- Spot Printing --}}
+      {{-- Spot Printing --}}
 
-                                                                <div class="row mb-2 align-items-center">
-                                                                    <div class="col-5 fw-semibold text-muted">Price Includes</div>
-                                                                    <div class="col-7">{{ $product->price_includes ?? '-' }}</div>
-                                                                </div>
+{{-- Spot Printing --}}
+@if(strtolower($tabTitle) === 'spot printing')
+    <div class="row mb-2 align-items-center">
+        <div class="col-5 fw-semibold text-muted">Price Includes</div>
+        <div class="col-7">{{ show_value($price_include[0] ?? '-') }}</div>
+    </div>
 
-                                                                <div class="row mb-2 align-items-center">
-                                                                    <div class="col-5 fw-semibold text-muted">Lead Time</div>
-                                                                    <div class="col-7">{{ $product->lead_time ?? '-' }}</div>
-                                                                </div>
+    <div class="row mb-2 align-items-center">
+        <div class="col-5 fw-semibold text-muted">Lead Time</div>
+        <div class="col-7">{{ show_value($lead_time[0] ?? '-') }}</div>
+    </div>
 
-                                                                <div class="row mb-2 align-items-center">
-                                                                    <div class="col-5 fw-semibold text-muted">Setup Charge</div>
-                                                                    <div class="col-7">{{ $product->setup_charge ?? '-' }}</div>
-                                                                </div>
+    <div class="row mb-2 align-items-center">
+        <div class="col-5 fw-semibold text-muted">Setup Charge</div>
+        <div class="col-7">{{ show_value($setup_charge[0] ?? '-') }}</div>
+    </div>
 
-                                                                <div class="row mb-2 align-items-center">
-                                                                    <div class="col-5 fw-semibold text-muted">Repeat Setup</div>
-                                                                    <div class="col-7">{{ $product->repeat_setup ?? '-' }}</div>
-                                                                </div>
+    <div class="row mb-2 align-items-center">
+        <div class="col-5 fw-semibold text-muted">Repeat Setup</div>
+        <div class="col-7">{{ show_value($repeat_setup[0] ?? '-') }}</div>
+    </div>
+@endif
 
-                                                            @endif
+        {{-- Heat Transfer --}}
+        @if(strtolower($tabTitle) === 'heat transfer')
+            <div class="row mb-2 align-items-center">
+                <div class="col-5 fw-semibold text-muted">Price Includes</div>
+                <div class="col-7">{{ show_value($price_include[1] ?? '-') }}</div>
+            </div>
 
-                                                            {{-- Blank --}}
-                                                            @if($tabTitle === 'blank')
+            <div class="row mb-2 align-items-center">
+                <div class="col-5 fw-semibold text-muted">Lead Time</div>
+                <div class="col-7">{{ show_value($lead_time[1] ?? '-') }}</div>
+            </div>
 
-                                                                <div class="row mb-2 align-items-center">
-                                                                    <div class="col-5 fw-semibold text-muted">Price Include</div>
-                                                                    <div class="col-7">{{ $product->price_include ?? '-' }}</div>
-                                                                </div>
+            <div class="row mb-2 align-items-center">
+                <div class="col-5 fw-semibold text-muted">Setup Charge</div>
+                <div class="col-7">{{ show_value($setup_charge[1] ?? '-') }}</div>
+            </div>
 
-                                                                <div class="row mb-2 align-items-center">
-                                                                    <div class="col-5 fw-semibold text-muted">Lead Time</div>
-                                                                    <div class="col-7">{{ $product->lead_time ?? '-' }}</div>
-                                                                </div>
+            <div class="row mb-2 align-items-center">
+                <div class="col-5 fw-semibold text-muted">Repeat Setup</div>
+                <div class="col-7">{{ show_value($repeat_setup[1] ?? '-') }}</div>
+            </div>
+        @endif
 
-                                                                <div class="row mb-2 align-items-center">
-                                                                    <div class="col-5 fw-semibold text-muted">MOQ</div>
-                                                                    <div class="col-7">{{ $product->MOQ ?? '-' }}</div>
-                                                                </div>
+        {{-- Blank --}}
+        @if(strtolower($tabTitle) === 'blank')
+            <div class="row mb-2 align-items-center">
+                <div class="col-5 fw-semibold text-muted">Price Include</div>
+                <div class="col-7">{{ show_value($product->price_include_blank ?? '-') }}</div>
+            </div>
 
-                                                            @endif
+            <div class="row mb-2 align-items-center">
+                <div class="col-5 fw-semibold text-muted">Lead Time</div>
+                <div class="col-7">{{ show_value($product->lead_time_repeat_blank ?? '-') }}</div>
+            </div>
 
-                                                        </div>
-                                                    </div>
+            <div class="row mb-2 align-items-center">
+                <div class="col-5 fw-semibold text-muted">MOQ</div>
+                <div class="col-7">{{ show_value($product->MOQ_blank ?? '-') }}</div>
+            </div>
+        @endif
 
+    </div>
+</div>
 
                                                     {{-- Optional Description --}}
                                                     @if(!empty($tab->description))

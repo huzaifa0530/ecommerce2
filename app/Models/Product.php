@@ -23,17 +23,24 @@ class Product extends Model
         'special_price_before',
         'special_price_after',
         'bw_template_pdf',
-        'price_include',
-        'lead_time',
-        'MOQ',
-        'price_includes',
-        'lead_time_repeat',
-        'setup_charge',
-        'repeat_setup'
+        // NEW FIELDS
+        'price_include_sh',
+        'price_include_blank',
+              'lead_time_repeat_blank',
+        'lead_time_sh',
+  
+        'setup_charge_sh',
+        'repeat_setup_sh',
+        'MOQ_blank',
+
     ];
 
     protected $casts = [
-        'other_specs' => 'array'
+        'other_specs' => 'array',
+        'price_include_sh' => 'array',
+        'lead_time_sh' => 'array',
+        'setup_charge_sh' => 'array',
+        'repeat_setup_sh' => 'array',
     ];
 
     public function category()
