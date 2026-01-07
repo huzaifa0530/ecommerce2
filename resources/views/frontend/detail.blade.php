@@ -343,7 +343,7 @@
 
                                                                 <tbody>
                                                                     @foreach($tab->rows->slice(1) as $rowIndex => $row)
-                                                                        <tr class="{{ $rowIndex >= 3 ? 'd-none extra-row' : '' }}">
+                                                                        <tr class="{{ $rowIndex >= 3 ? 'd-none extra-row' : '' }}"  data-tab="{{ $tab->id }}">
                                                                             <th>{{ $row->label }}</th>
                                                                             @foreach($row->cells as $cell)
                                                                                 <td>{{ $cell->value }}</td>
@@ -353,6 +353,14 @@
                                                                 </tbody>
                                                             @endif
                                                         </table>
+                                                            @if($tab->rows->count() > 3)
+                                                            <div class="text-center mt-2">
+                                                                <button type="button" class="btn btn-link show-more-btn"
+                                                                    data-tab="{{ $tab->id }}">
+                                                                    Show More Pricing
+                                                                </button>
+                                                            </div>
+                                                        @endif
                                                     </div>
 
                                @php
